@@ -1,0 +1,6 @@
+{
+  "name": "Jinja2 vs HTMX Presentation",
+  "description": "An interactive, high-fidelity slide deck and technical sandbox showcasing the developer's journey from Jinja2 and FastAPI to Flask and HTMX, featuring live API mockups and an AI Chef agent.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
