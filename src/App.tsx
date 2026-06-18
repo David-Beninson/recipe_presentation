@@ -246,7 +246,8 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans relative antialiased overflow-x-hidden">
 
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .fullscreen-active .grid-cols-1.md\\:grid-cols-2 {
           gap: 0.5rem !important;
         }
@@ -751,11 +752,10 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
 
   return (
     <div
-      className={`w-full flex flex-col justify-between animate-fade-in relative transition-all duration-300 ${
-        isFullscreen 
-          ? "w-full h-screen max-h-screen bg-[#f4f7fa] p-4 md:p-8 lg:p-10 text-slate-900 overflow-hidden" 
+      className={`w-full flex flex-col justify-between animate-fade-in relative transition-all duration-300 ${isFullscreen
+          ? "w-full h-screen max-h-screen bg-[#f4f7fa] p-4 md:p-8 lg:p-10 text-slate-900 overflow-hidden"
           : "max-w-5xl rounded-3xl border-8 border-slate-200 bg-white shadow-xl shadow-slate-200/50 min-h-[460px] p-6 md:p-8 text-slate-900"
-      }`}
+        }`}
       dir="rtl"
     >
       {/* Decorative Slide Background elements */}
@@ -785,17 +785,15 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
       <div className={`flex-1 flex flex-col justify-center ${isFullscreen ? "space-y-3 lg:space-y-4" : "space-y-5"}`}>
         <div>
           {slide.content.subheading && (
-            <span className={`inline-block border font-bold rounded-sm w-fit font-sans ${
-              isFullscreen 
-                ? "px-2 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 text-[10px] mb-1.5" 
+            <span className={`inline-block border font-bold rounded-sm w-fit font-sans ${isFullscreen
+                ? "px-2 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 text-[10px] mb-1.5"
                 : "px-2.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 text-[11px] mb-2.5"
-            }`}>
+              }`}>
               {slide.content.subheading}
             </span>
           )}
-          <h2 className={`font-sans tracking-tight leading-none font-extrabold ${skin.fontTitle} ${
-            isFullscreen ? "text-xl md:text-3xl lg:text-4xl" : "text-2xl md:text-4xl"
-          }`}>
+          <h2 className={`font-sans tracking-tight leading-none font-extrabold ${skin.fontTitle} ${isFullscreen ? "text-xl md:text-3xl lg:text-4xl" : "text-2xl md:text-4xl"
+            }`}>
             {slide.title}
           </h2>
         </div>
@@ -805,9 +803,8 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
           {slide.content.points.map((point, index) => (
             <div key={index} className="flex items-start gap-2.5 text-right">
               <span className={`mt-2 shrink-0 h-1.5 w-1.5 rounded-full ${slide.persona === "technical" ? "bg-emerald-500" : slide.persona === "marketing" ? "bg-amber-500" : "bg-purple-500"}`} />
-              <p className={`leading-relaxed font-sans ${
-                isFullscreen ? "text-slate-800 text-sm md:text-base lg:text-lg font-medium" : "text-slate-700 text-sm md:text-base"
-              }`}>
+              <p className={`leading-relaxed font-sans ${isFullscreen ? "text-slate-800 text-sm md:text-base lg:text-lg font-medium" : "text-slate-700 text-sm md:text-base"
+                }`}>
                 {point}
               </p>
             </div>
@@ -832,7 +829,7 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
                 <div className="px-4 py-2 bg-blue-50 border border-blue-200 rounded-xl max-w-sm flex items-center gap-3 shadow-xs">
                   <Terminal className="h-4 w-4 text-blue-600" />
                   <span className="text-[11px] font-sans text-blue-800 font-bold">
-                    {slide.content.punchline}
+                    מערך: FastAPI + Jinja2 (קרב אבוד מראש)
                   </span>
                 </div>
               </div>
@@ -903,15 +900,13 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
 
       {/* Slide Punchline Footer panel */}
       {slide.content.punchline && (
-        <div className={`px-4 py-3 rounded-xl border flex items-center justify-between text-right relative overflow-hidden shadow-xs ${
-          isFullscreen ? "max-w-2xl mx-auto w-full mt-4" : "w-full mt-6"
-        } ${
-          slide.persona === "technical"
+        <div className={`px-4 py-3 rounded-xl border flex items-center justify-between text-right relative overflow-hidden shadow-xs ${isFullscreen ? "max-w-2xl mx-auto w-full mt-4" : "w-full mt-6"
+          } ${slide.persona === "technical"
             ? "bg-emerald-50 border-emerald-200 text-emerald-800"
             : slide.persona === "marketing"
               ? "bg-amber-50 border-amber-200 text-amber-800"
               : "bg-purple-50 border-purple-200 text-purple-800"
-        }`}>
+          }`}>
           <div className="flex items-center gap-2">
             <Zap className={`h-4 w-4 shrink-0 ${slide.persona === "technical" ? "text-emerald-600" : slide.persona === "marketing" ? "text-amber-600" : "text-purple-600"}`} />
             <span className="font-sans font-bold text-xs md:text-sm">
