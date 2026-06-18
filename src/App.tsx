@@ -268,9 +268,9 @@ export default function App() {
           margin-bottom: 0.25rem !important;
           margin-top: 0.25rem !important;
         }
-        .fullscreen-active p,
-        .fullscreen-active .text-xs,
-        .fullscreen-active .text-sm {
+        .fullscreen-active p:not(.slide-bullet-point),
+        .fullscreen-active .text-xs:not(.slide-bullet-point),
+        .fullscreen-active .text-sm:not(.slide-bullet-point) {
           font-size: 0.7rem !important;
           line-height: 1.2 !important;
         }
@@ -799,11 +799,11 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
         </div>
 
         {/* Bullet points mapping */}
-        <div className={`pt-1 ${isFullscreen ? "space-y-1.5 lg:space-y-2" : "space-y-3"}`}>
+        <div className={`pt-1 ${isFullscreen ? "space-y-2.5 lg:space-y-3.5" : "space-y-4"}`}>
           {slide.content.points.map((point, index) => (
-            <div key={index} className="flex items-start gap-2.5 text-right">
-              <span className={`mt-2 shrink-0 h-1.5 w-1.5 rounded-full ${slide.persona === "technical" ? "bg-emerald-500" : slide.persona === "marketing" ? "bg-amber-500" : "bg-purple-500"}`} />
-              <p className={`leading-relaxed font-sans ${isFullscreen ? "text-slate-800 text-sm md:text-base lg:text-lg font-medium" : "text-slate-700 text-sm md:text-base"
+            <div key={index} className="flex items-start gap-3.5 text-right">
+              <span className={`mt-2.5 shrink-0 h-2.5 w-2.5 rounded-full ${slide.persona === "technical" ? "bg-emerald-500" : slide.persona === "marketing" ? "bg-amber-500" : "bg-purple-500"}`} />
+              <p className={`slide-bullet-point leading-relaxed font-sans ${isFullscreen ? "text-slate-900 text-lg md:text-xl lg:text-2xl font-semibold" : "text-slate-800 text-base md:text-lg lg:text-xl font-medium"
                 }`}>
                 {point}
               </p>
