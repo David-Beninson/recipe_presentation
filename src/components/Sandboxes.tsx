@@ -256,6 +256,27 @@ export function AIChefSandbox() {
       persona: "local_llm"
     };
 
+    // Check if running on GitHub Pages (static deployment) or local file system
+    const isStaticDeployment = 
+      window.location.hostname.endsWith(".github.io") || 
+      window.location.hostname.includes("github.io") ||
+      window.location.protocol === "file:";
+
+    if (isStaticDeployment) {
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorInfo({ isSimulated: true, message: "פועל במצב סימולציה (סביבת GitHub Pages סטטית)" });
+        if (useStructuredJson) {
+          const mockJson = mockResponse.json;
+          setResponseText(mockJson);
+          setRenderedRecipe(JSON.parse(mockJson));
+        } else {
+          setResponseText(mockResponse.text);
+        }
+      }, 1000);
+      return;
+    }
+
     try {
       const res = await fetch("/api/chef", {
         method: "POST",
