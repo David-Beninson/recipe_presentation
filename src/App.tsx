@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { initialSlides } from "./slidesData";
 import { SlideData, SlidePersona } from "./types";
-import exhaustedDeveloperJinja from "../assets/exhausted_developer_jinja.png";
+import exhaustedDeveloperJinja from "../assets/exhausted_developer_jinja.jpg";
 import {
   JinjaTemplateSandbox,
   AIChefSandbox,
@@ -672,7 +672,7 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
         <div className="pt-4 mt-2">
           {slide.number === 1 && (
             <div className="bg-slate-50 p-4 rounded-xl border border-slate-250 text-center shadow-sm flex flex-col items-center">
-              <div className="relative w-full max-w-md h-40 mb-3 rounded-lg overflow-hidden border border-slate-200">
+              <div className="relative w-full max-w-xs h-28 mb-3 rounded-lg overflow-hidden border border-slate-200">
                 <img src={exhaustedDeveloperJinja} alt="Exhausted developer looking at spaghetti code" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent flex items-end p-2 justify-center">
                   <span className="text-white text-xs font-bold font-sans drop-shadow-md">"כרוניקת תבוסה"</span>
