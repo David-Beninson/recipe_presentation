@@ -11,7 +11,7 @@ export const initialSlides: SlideData[] = [
       subheading: "פרויקט: Recipe ",
       points: [
         "הפרויקט: אפליקציית מתכונים",
-        "האגר: לעבוד בלי framework אלא בcss py, js, html?",
+        "האתגר: לעבוד בלי framework אלא בcss py, js, html, ןאם זה לא מספיק אז גם בלי AI(!)",
       ],
       punchline: "כי למה לישון בלילה כשאפשר להילחם ב-Template Engine?"
     },
