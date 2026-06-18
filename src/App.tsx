@@ -75,6 +75,65 @@ export default function App() {
 
   const notesEndRef = useRef<HTMLDivElement>(null);
 
+  // --- Fullscreen API & Netflix-style Controls Auto-hide ---
+  const [showControls, setShowControls] = useState(true);
+  const controlsTimeoutRef = useRef<any>(null);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement && viewMode === "fullscreen") {
+        setViewMode("presenter");
+      }
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, [viewMode]);
+
+  useEffect(() => {
+    if (viewMode === "fullscreen") {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch((err) => {
+          console.error("Error enabling fullscreen:", err);
+        });
+      }
+    } else {
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch((err) => {
+          console.error("Error exiting fullscreen:", err);
+        });
+      }
+    }
+  }, [viewMode]);
+
+  useEffect(() => {
+    if (viewMode !== "fullscreen") {
+      setShowControls(true);
+      return;
+    }
+
+    const handleMouseMove = () => {
+      setShowControls(true);
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
+      controlsTimeoutRef.current = setTimeout(() => {
+        setShowControls(false);
+      }, 2500);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    controlsTimeoutRef.current = setTimeout(() => {
+      setShowControls(false);
+    }, 2500);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
+    };
+  }, [viewMode]);
+
   // --- Timer effect ---
   useEffect(() => {
     let interval: any = null;
@@ -186,6 +245,76 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans relative antialiased overflow-x-hidden">
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        .fullscreen-active .grid-cols-1.md\\:grid-cols-2 {
+          gap: 0.5rem !important;
+        }
+        .fullscreen-active .border-4 {
+          border-width: 2px !important;
+          padding: 0.5rem !important;
+          border-radius: 0.75rem !important;
+        }
+        .fullscreen-active .min-h-\\[105px\\],
+        .fullscreen-active .min-h-\\[300px\\] {
+          min-height: 0 !important;
+          min-height: 45px !important;
+          margin-bottom: 0.25rem !important;
+        }
+        .fullscreen-active .mb-4,
+        .fullscreen-active .my-4,
+        .fullscreen-active .mb-3 {
+          margin-bottom: 0.25rem !important;
+          margin-top: 0.25rem !important;
+        }
+        .fullscreen-active p,
+        .fullscreen-active .text-xs,
+        .fullscreen-active .text-sm {
+          font-size: 0.7rem !important;
+          line-height: 1.2 !important;
+        }
+        .fullscreen-active h4 {
+          font-size: 0.75rem !important;
+        }
+        .fullscreen-active form {
+          margin-bottom: 0.25rem !important;
+        }
+        .fullscreen-active input,
+        .fullscreen-active button {
+          font-size: 0.7rem !important;
+          padding-top: 0.25rem !important;
+          padding-bottom: 0.25rem !important;
+        }
+        .fullscreen-active pre {
+          font-size: 0.65rem !important;
+        }
+        .fullscreen-active .max-h-\\[220px\\] {
+          max-height: 80px !important;
+        }
+        .fullscreen-active .max-h-\\[120px\\] {
+          max-height: none !important;
+        }
+        .fullscreen-active .gap-6,
+        .fullscreen-active .gap-5 {
+          gap: 0.5rem !important;
+        }
+        .fullscreen-active .lg\\:w-1\\/2.justify-between {
+          justify-content: flex-start !important;
+        }
+        .fullscreen-active .lg\\:w-1\\/2.justify-between pre {
+          margin-top: -1px !important;
+          flex: 1 !important;
+          height: auto !important;
+          max-height: none !important;
+        }
+        .fullscreen-active .bg-amber-50 {
+          padding: 0.25rem 0.5rem !important;
+          margin-bottom: 0.35rem !important;
+        }
+        .fullscreen-active .lg\\:w-1\\/3 {
+          width: 22% !important;
+        }
+      `}} />
 
       {/* Decorative Grid Line Patterns */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 pointer-events-none" />
@@ -534,18 +663,18 @@ export default function App() {
 
         {/* VIEW 3: FULLSCREEN PRESENTATION MODE */}
         {viewMode === "fullscreen" && (
-          <div className="flex-1 bg-slate-900 flex flex-col justify-between p-8 relative overflow-hidden transition-all duration-300" dir="rtl">
+          <div className="fixed inset-0 z-50 w-screen h-screen bg-[#f4f7fa] flex flex-col justify-between overflow-hidden transition-all duration-300 fullscreen-active" dir="rtl">
 
             {/* Minimal floating navigation header */}
-            <div className="absolute top-6 left-6 right-6 flex items-center justify-between z-10 px-4 pointer-events-none">
-              <span className="px-3 py-1 bg-slate-950/80 backdrop-blur-md rounded-full text-xs font-mono text-slate-300 border border-slate-800">
-                Slide {currentSlideIndex + 1} of {slides.length}
+            <div className={`absolute top-6 left-6 right-6 flex items-center justify-between z-50 px-4 transition-opacity duration-500 ${showControls ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+              <span className="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-mono text-slate-800 border border-slate-200 shadow-md">
+                שקף {currentSlideIndex + 1} מתוך {slides.length}
               </span>
 
-              <div className="flex gap-2 pointer-events-auto">
+              <div className="flex gap-2">
                 <button
                   onClick={() => setViewMode("presenter")}
-                  className="px-3 py-1.5 bg-slate-950/80 backdrop-blur-md border border-slate-800 text-slate-200 text-[11px] font-semibold rounded-lg hover:text-blue-400 transition-colors shadow-lg"
+                  className="px-3 py-1.5 bg-white/90 backdrop-blur-md border border-slate-200 text-slate-800 text-[11px] font-semibold rounded-lg hover:text-blue-655 hover:bg-slate-50 transition-colors shadow-md cursor-pointer"
                 >
                   סגור מסך מלא
                 </button>
@@ -553,23 +682,25 @@ export default function App() {
             </div>
 
             {/* Slides display maximized */}
-            <div className="flex-1 flex items-center justify-center my-6">
+            <div className="flex-1 w-full h-full">
               <PresenterPageSlide key={currentSlide.id} slide={currentSlide} isFullscreen />
             </div>
 
-            {/* Invisible cursor regions for slide swapping or floating control panel */}
-            <div className="flex items-center justify-between h-1">
+            {/* Floating Navigation Controls */}
+            <div className={`transition-opacity duration-500 ${showControls ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
               <button
                 onClick={prevSlide}
                 disabled={currentSlideIndex === 0}
-                className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-slate-950/70 backdrop-blur hover:bg-slate-950 rounded-full border border-slate-800 text-slate-350 hover:text-white transition-all disabled:opacity-0"
+                className="absolute right-6 top-1/2 -translate-y-1/2 p-4 bg-white/90 backdrop-blur-md hover:bg-slate-50 disabled:opacity-30 rounded-full border border-slate-200 text-slate-700 hover:text-blue-600 transition-all shadow-lg cursor-pointer"
+                title="הקודם"
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
               <button
                 onClick={nextSlide}
                 disabled={currentSlideIndex === slides.length - 1}
-                className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-slate-950/70 backdrop-blur hover:bg-slate-950 rounded-full border border-slate-800 text-slate-350 hover:text-white transition-all disabled:opacity-0"
+                className="absolute left-6 top-1/2 -translate-y-1/2 p-4 bg-white/90 backdrop-blur-md hover:bg-slate-50 disabled:opacity-30 rounded-full border border-slate-200 text-slate-700 hover:text-blue-600 transition-all shadow-lg cursor-pointer"
+                title="הבא"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
@@ -582,12 +713,7 @@ export default function App() {
   );
 }
 
-
-// ==========================================
-// RENDER COMPONENT: Dynamic Persona Page Slide
-// ==========================================
 function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData; isFullscreen?: boolean; key?: React.Key }) {
-
   // Choose layout tokens based on slide's persona skin
   const getSkinTheme = (persona: SlidePersona) => {
     switch (persona) {
@@ -625,16 +751,20 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
 
   return (
     <div
-      className={`w-full max-w-5xl rounded-3xl border-8 border-slate-200 bg-white shadow-xl shadow-slate-200/50 flex flex-col justify-between overflow-hidden animate-fade-in relative transition-all duration-300 ${isFullscreen ? "min-h-[550px] p-8 md:p-12" : "min-h-[460px] p-6 md:p-8"
-        }`}
+      className={`w-full flex flex-col justify-between animate-fade-in relative transition-all duration-300 ${
+        isFullscreen 
+          ? "w-full h-screen max-h-screen bg-[#f4f7fa] p-4 md:p-8 lg:p-10 text-slate-900 overflow-hidden" 
+          : "max-w-5xl rounded-3xl border-8 border-slate-200 bg-white shadow-xl shadow-slate-200/50 min-h-[460px] p-6 md:p-8 text-slate-900"
+      }`}
       dir="rtl"
     >
-
       {/* Decorative Slide Background elements */}
-      <div className="absolute top-0 right-0 left-0 h-1.5 bg-gradient-to-l from-blue-600 via-indigo-600 to-transparent opacity-90" />
+      {!isFullscreen && (
+        <div className="absolute top-0 right-0 left-0 h-1.5 bg-gradient-to-l from-blue-600 via-indigo-600 to-transparent opacity-90" />
+      )}
 
       {/* Slide Header Info / Persona Category indicator */}
-      <div className="flex justify-between items-center mb-6">
+      <div className={`flex justify-between items-center ${isFullscreen ? "mb-2 lg:mb-3" : "mb-6"}`}>
         <span className="font-mono text-[10px] tracking-widest text-slate-400 font-bold">
           SLIDEDECK • NO.{slide.number} PAGE
         </span>
@@ -646,30 +776,38 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
           <img
             src={oliverImg}
             alt="Oliver"
-            className="w-12 h-12 rounded-full border-2 border-slate-200 shadow-md object-cover"
+            className={`${isFullscreen ? "w-20 h-20" : "w-12 h-12"} rounded-full border-2 border-slate-200 shadow-md object-cover`}
           />
         </div>
       </div>
 
       {/* Main Slide Grid layout Content panel */}
-      <div className="flex-1 flex flex-col justify-center space-y-5">
+      <div className={`flex-1 flex flex-col justify-center ${isFullscreen ? "space-y-3 lg:space-y-4" : "space-y-5"}`}>
         <div>
           {slide.content.subheading && (
-            <span className="inline-block px-2.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 text-[11px] font-bold rounded-sm mb-2.5 w-fit font-sans">
+            <span className={`inline-block border font-bold rounded-sm w-fit font-sans ${
+              isFullscreen 
+                ? "px-2 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 text-[10px] mb-1.5" 
+                : "px-2.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 text-[11px] mb-2.5"
+            }`}>
               {slide.content.subheading}
             </span>
           )}
-          <h2 className={`font-sans text-2xl md:text-4xl tracking-tight leading-none font-extrabold ${skin.fontTitle}`}>
+          <h2 className={`font-sans tracking-tight leading-none font-extrabold ${skin.fontTitle} ${
+            isFullscreen ? "text-xl md:text-3xl lg:text-4xl" : "text-2xl md:text-4xl"
+          }`}>
             {slide.title}
           </h2>
         </div>
 
         {/* Bullet points mapping */}
-        <div className="space-y-3 pt-1">
+        <div className={`pt-1 ${isFullscreen ? "space-y-1.5 lg:space-y-2" : "space-y-3"}`}>
           {slide.content.points.map((point, index) => (
             <div key={index} className="flex items-start gap-2.5 text-right">
-              <span className={`mt-2 shrink-0 h-2 w-2 rounded-full ${slide.persona === "technical" ? "bg-emerald-500" : slide.persona === "marketing" ? "bg-amber-500" : "bg-purple-500"}`} />
-              <p className="text-slate-700 text-sm md:text-base leading-relaxed font-sans">
+              <span className={`mt-2 shrink-0 h-1.5 w-1.5 rounded-full ${slide.persona === "technical" ? "bg-emerald-500" : slide.persona === "marketing" ? "bg-amber-500" : "bg-purple-500"}`} />
+              <p className={`leading-relaxed font-sans ${
+                isFullscreen ? "text-slate-800 text-sm md:text-base lg:text-lg font-medium" : "text-slate-700 text-sm md:text-base"
+              }`}>
                 {point}
               </p>
             </div>
@@ -677,18 +815,17 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
         </div>
 
         {/* DYNAMIC SANDBOX INTEGRATION DEPENDING ON ACTIVE SLIDE */}
-        {/* Letting each slide contain an amazing visual helper showcase */}
-        <div className="pt-4 mt-2">
+        <div className={`pt-4 min-h-0 ${isFullscreen ? "mt-2" : "mt-2"}`}>
           {slide.number === 1 && (
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-250 text-center shadow-sm flex flex-col items-center">
-              <div className="relative w-full max-w-xs h-28 mb-3 rounded-lg overflow-hidden border border-slate-200">
+            <div className={`bg-slate-50 border border-slate-250 text-center shadow-sm flex flex-col items-center ${isFullscreen ? "p-6 rounded-2xl max-w-xl mx-auto" : "p-4 rounded-xl"}`}>
+              <div className={`relative rounded-lg overflow-hidden border border-slate-200 ${isFullscreen ? "w-[420px] h-60 mb-3" : "w-full max-w-xs h-28 mb-3"}`}>
                 <img src={exhaustedDeveloperJinja} alt="Exhausted developer looking at spaghetti code" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent flex items-end p-2 justify-center">
                   <span className="text-white text-xs font-bold font-sans drop-shadow-md">"קרב אבוד מראש"</span>
                 </div>
               </div>
               <span className="text-[10px] text-slate-400 block mb-1 font-mono uppercase font-bold">ויז'ואל קונספט</span>
-              <p className="text-slate-600 font-sans text-xs md:text-sm font-medium italic">
+              <p className="text-slate-655 font-sans text-xs md:text-sm font-medium italic">
                 {slide.concept}
               </p>
               <div className="mt-4 flex justify-center">
@@ -703,12 +840,12 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
           )}
 
           {slide.number === 2 && (
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-250 shadow-sm">
+            <div className={`bg-slate-50 border border-slate-250 shadow-sm ${isFullscreen ? "p-6 rounded-2xl max-w-2xl mx-auto" : "p-4 rounded-xl"}`}>
               <div className="flex items-center gap-2 mb-2">
                 <span className="px-2 py-0.5 text-[10px] bg-emerald-100 border border-emerald-250 text-emerald-800 rounded font-mono font-bold">FastAPI Check</span>
                 <span className="text-[11px] text-slate-500 font-sans">Reality Check: סימולציה של חלוקת תהליכי Async</span>
               </div>
-              <div className="bg-slate-900 p-3.5 rounded-lg border border-slate-950 overflow-auto font-mono text-[11.5px] text-zinc-300 text-left shadow-inner" dir="ltr">
+              <div className={`bg-slate-900 rounded-lg border border-slate-950 overflow-auto font-mono text-zinc-300 text-left shadow-inner whitespace-pre ${isFullscreen ? "p-5 text-xs leading-relaxed" : "p-3.5 text-[11.5px]"}`} dir="ltr">
                 <span className="text-emerald-400 font-bold">@app.get("/")</span>{"\n"}
                 <span className="text-purple-400 font-bold">async def</span> <span className="text-blue-400">home</span>(request: Request):{"\n"}
                 {"  "}<span className="text-zinc-500"># Jinja2 rendering inside Event Loop!</span>{"\n"}
@@ -740,12 +877,12 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
           )}
 
           {slide.number === 6 && (
-            <div className="bg-gradient-to-r from-slate-50 to-slate-100 p-5 rounded-2xl border border-slate-250 text-center space-y-3 shadow-xs">
+            <div className={`bg-gradient-to-r from-slate-50 to-slate-100 border border-slate-250 text-center space-y-3 shadow-xs ${isFullscreen ? "p-8 rounded-2xl max-w-2xl mx-auto" : "p-5 rounded-2xl"}`}>
               <div className="flex justify-center flex-col items-center">
                 <Award className="h-10 w-10 text-blue-600 animate-bounce mb-2" />
                 <h4 className="text-sm md:text-base font-extrabold text-slate-900">מסקנה מהפרויקט: הפרודוקטיביות החדשה 🚀</h4>
               </div>
-              <p className="text-xs md:text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
+              <p className="text-xs md:text-sm text-slate-655 max-w-lg mx-auto leading-relaxed">
                 פה אמנם השתמשתי בAI לכתוב לרוב קומנטים (ולמצגת כמובן), אבל בכללי אולי כן לעבוד עם AI?
               </p>
               <div className="pt-2 flex justify-center">
@@ -766,12 +903,15 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
 
       {/* Slide Punchline Footer panel */}
       {slide.content.punchline && (
-        <div className={`mt-6 px-4 py-3 rounded-xl border flex items-center justify-between text-right relative overflow-hidden shadow-xs ${slide.persona === "technical"
-          ? "bg-emerald-50 border-emerald-200 text-emerald-800"
-          : slide.persona === "marketing"
-            ? "bg-amber-50 border-amber-200 text-amber-800"
-            : "bg-purple-50 border-purple-200 text-purple-800"
-          }`}>
+        <div className={`px-4 py-3 rounded-xl border flex items-center justify-between text-right relative overflow-hidden shadow-xs ${
+          isFullscreen ? "max-w-2xl mx-auto w-full mt-4" : "w-full mt-6"
+        } ${
+          slide.persona === "technical"
+            ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+            : slide.persona === "marketing"
+              ? "bg-amber-50 border-amber-200 text-amber-800"
+              : "bg-purple-50 border-purple-200 text-purple-800"
+        }`}>
           <div className="flex items-center gap-2">
             <Zap className={`h-4 w-4 shrink-0 ${slide.persona === "technical" ? "text-emerald-600" : slide.persona === "marketing" ? "text-amber-600" : "text-purple-600"}`} />
             <span className="font-sans font-bold text-xs md:text-sm">
@@ -779,12 +919,11 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
             </span>
           </div>
 
-          <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400 font-bold shrink-0">
+          <span className="text-[10px] uppercase font-mono tracking-widest text-slate-450 font-bold shrink-0">
             PUNCHLINE
           </span>
         </div>
       )}
-
     </div>
   );
 }
