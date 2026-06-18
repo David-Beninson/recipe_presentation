@@ -403,11 +403,11 @@ export function AIChefSandbox() {
         {/* Sidebar Controls */}
         <div className="w-full lg:w-1/3 space-y-4">
           <div className="flex items-center gap-2 mb-1">
-            <Sparkles className="h-5 w-5 text-purple-600" />
-            <h3 className="font-sans font-extrabold text-purple-900 text-sm md:text-base">קונפיגורטור פרומפטים מובנה</h3>
+            <Sparkles className="h-5 w-5 text-purple-600 animate-pulse" />
+            <h3 className="font-sans font-extrabold text-purple-900 text-sm md:text-base">לייב דמו: השף המקומי</h3>
           </div>
-          <p className="text-xs text-slate-500 leading-relaxed">
-            בדקו כיצד הלבשת תפקיד (System Instructions) בשרת ואילוץ סכמת JSON מונעים אנומליות ומחזירים מתכון מובנה מהמחשב הביתי.
+          <p className="text-xs text-slate-650 leading-relaxed font-medium">
+            לא מאמינים שזה באמת עובד מהבית? בואו נבדוק אותו בלייב:
           </p>
 
           {/* Ingredients */}

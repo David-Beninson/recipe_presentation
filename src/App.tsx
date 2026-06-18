@@ -3,6 +3,20 @@ import { initialSlides } from "./slidesData";
 import { SlideData, SlidePersona } from "./types";
 import exhaustedDeveloperJinja from "../assets/exhausted_developer_jinja.jpg";
 import oliverImg from "../assets/oliver.jpg";
+import youtubeVsReality from "../assets/youtube_vs_reality.png";
+import flaskLogo from "../assets/flask_logo.svg";
+import postgresLogo from "../assets/postgresql_logo.png";
+import sqlalchemyLogo from "../assets/sqlalchemy_logo.png";
+import htmxLogo from "../assets/htmx_logo.png";
+import jinjaLogo from "../assets/jinja_logo.svg";
+import pythonLogo from "../assets/python_logo.svg";
+import htmlLogo from "../assets/html_logo.svg";
+import cssLogo from "../assets/css_logo.svg";
+import jsLogo from "../assets/js_logo.svg";
+import vercelLogo from "../assets/vercel_logo.svg";
+import neonLogo from "../assets/neon_logo.png";
+import ngrokLogo from "../assets/ngrok_logo.png";
+import spoonacularLogo from "../assets/spoonacular_logo.png";
 
 import {
   JinjaTemplateSandbox,
@@ -752,8 +766,8 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
   return (
     <div
       className={`w-full flex flex-col justify-between animate-fade-in relative transition-all duration-300 ${isFullscreen
-          ? "w-full h-screen max-h-screen bg-[#f4f7fa] p-4 md:p-8 lg:p-10 text-slate-900 overflow-hidden"
-          : "max-w-5xl rounded-3xl border-8 border-slate-200 bg-white shadow-xl shadow-slate-200/50 min-h-[460px] p-6 md:p-8 text-slate-900"
+        ? "w-full h-screen max-h-screen bg-[#f4f7fa] p-4 md:p-8 lg:p-10 text-slate-900 overflow-hidden"
+        : "max-w-5xl rounded-3xl border-8 border-slate-200 bg-white shadow-xl shadow-slate-200/50 min-h-[460px] p-6 md:p-8 text-slate-900"
         }`}
       dir="rtl"
     >
@@ -785,8 +799,8 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
         <div>
           {slide.content.subheading && (
             <span className={`inline-block border font-bold rounded-sm w-fit font-sans ${isFullscreen
-                ? "px-2.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 text-xs md:text-sm mb-1.5"
-                : "px-2.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 text-xs md:text-sm mb-2.5"
+              ? "px-2.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 text-xs md:text-sm mb-1.5"
+              : "px-2.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 text-xs md:text-sm mb-2.5"
               }`}>
               {slide.content.subheading}
             </span>
@@ -814,24 +828,16 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
         <div className={`pt-4 min-h-0 ${isFullscreen ? "mt-2" : "mt-2"}`}>
           {slide.number === 1 && (
             <div className={`bg-slate-50 border border-slate-250 text-center shadow-sm flex flex-col items-center ${isFullscreen ? "p-6 rounded-2xl max-w-3xl mx-auto" : "p-4 rounded-xl"}`}>
-              <div className={`relative rounded-lg overflow-hidden border border-slate-200 ${isFullscreen ? "w-[680px] h-[360px] max-w-full mb-3" : "w-full max-w-xs h-28 mb-3"}`}>
-                <img src={exhaustedDeveloperJinja} alt="Exhausted developer looking at spaghetti code" className="w-full h-full object-cover" />
+              <div className={`relative rounded-lg overflow-hidden border border-slate-200 ${isFullscreen ? "aspect-square h-[360px] mb-3" : "aspect-square w-full max-w-[180px] mb-3"}`}>
+                <img src={youtubeVsReality} alt="YouTube vs Reality" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent flex items-end p-2 justify-center">
-                  <span className="text-white text-xs font-bold font-sans drop-shadow-md">"קרב אבוד מראש"</span>
+                  <span className="text-white text-xs font-bold font-sans drop-shadow-md">"פנטזיה לעומת מציאות"</span>
                 </div>
               </div>
               <span className="text-[10px] text-slate-400 block mb-1 font-mono uppercase font-bold">ויז'ואל קונספט</span>
               <p className="text-slate-655 font-sans text-xs md:text-sm font-medium italic">
                 {slide.concept}
               </p>
-              <div className="mt-4 flex justify-center">
-                <div className="px-4 py-2 bg-blue-50 border border-blue-200 rounded-xl max-w-sm flex items-center gap-3 shadow-xs">
-                  <Terminal className="h-4 w-4 text-blue-600" />
-                  <span className="text-[11px] font-sans text-blue-800 font-bold">
-                    מערך: FastAPI + Jinja2 (קרב אבוד מראש)
-                  </span>
-                </div>
-              </div>
             </div>
           )}
 
@@ -846,40 +852,214 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
                 <span className="text-purple-400 font-bold">async def</span> <span className="text-blue-400">home</span>(request: Request):{"\n"}
                 {"  "}<span className="text-zinc-500"># Jinja2 rendering inside Event Loop!</span>{"\n"}
                 {"  "}<span className="text-zinc-500"># Blocked event loops lead to UI choking...</span>{"\n"}
-                {"  "}<span className="text-purple-400 font-bold">return</span> templates.TemplateResponse(<span className="text-amber-400">"index.html"</span>, {"{"}<span className="text-amber-400">"request"</span>: request{"}"})
+                {"  "}<span className="text-purple-400 font-bold">return templates.TemplateResponse</span>(<span className="text-amber-400">"index.html"</span>, {"{"}<span className="text-amber-400">"request"</span>: request{"}"})
               </div>
             </div>
           )}
 
           {slide.number === 3 && (
-            <div className={`space-y-2 ${isFullscreen ? "max-w-3xl mx-auto w-full" : ""}`}>
-              <span className="text-[10px] text-blue-600 font-mono block font-bold">עדויות ופעולת Sandbox לעדות החיסכון:</span>
-              <JinjaTemplateSandbox />
+            <div className={`space-y-5 ${isFullscreen ? "max-w-6xl mx-auto w-full p-2" : "max-w-xl mx-auto p-1"}`}>
+              {/* Category 1: Languages */}
+              <div>
+                <h4 className="text-xs md:text-[13px] font-extrabold text-slate-800 mb-2 border-r-4 border-blue-500 pr-2 select-none">
+                  שפות הליבה (Core Languages)
+                </h4>
+                <div className="grid grid-cols-3 gap-3">
+                  {/* Python */}
+                  <div className="bg-white border border-slate-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:shadow-sm transition-shadow">
+                    <div className="h-10 w-full flex items-center justify-center mb-1.5">
+                      <img src={pythonLogo} alt="Python" className="max-h-full max-w-[80%] object-contain" />
+                    </div>
+                    <div>
+                      <h5 className="text-[11px] md:text-xs font-bold text-slate-800">Python</h5>
+                      <p className="text-[9.5px] text-slate-500 mt-1 font-sans leading-normal">שפת הפיתוח של ה-Backend</p>
+                    </div>
+                  </div>
+
+                  {/* HTML5 & CSS3 */}
+                  <div className="bg-white border border-slate-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:shadow-sm transition-shadow">
+                    <div className="h-10 w-full flex items-center justify-center mb-1.5 gap-2">
+                      <img src={htmlLogo} alt="HTML5" className="max-h-full max-w-[35%] object-contain" />
+                      <img src={cssLogo} alt="CSS3" className="max-h-full max-w-[35%] object-contain" />
+                    </div>
+                    <div>
+                      <h5 className="text-[11px] md:text-xs font-bold text-slate-800">HTML5 & CSS3</h5>
+                      <p className="text-[9.5px] text-slate-500 mt-1 font-sans leading-normal">בנייה ועיצוב הממשק המקורי</p>
+                    </div>
+                  </div>
+
+                  {/* JavaScript */}
+                  <div className="bg-white border border-slate-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:shadow-sm transition-shadow">
+                    <div className="h-10 w-full flex items-center justify-center mb-1.5">
+                      <img src={jsLogo} alt="JavaScript" className="max-h-full max-w-[80%] object-contain" />
+                    </div>
+                    <div>
+                      <h5 className="text-[11px] md:text-xs font-bold text-slate-800">JavaScript</h5>
+                      <p className="text-[9.5px] text-slate-500 mt-1 font-sans leading-normal">Vanilla JavaScript</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Category 2: Backend & Templates */}
+              <div>
+                <h4 className="text-xs md:text-[13px] font-extrabold text-slate-800 mb-2 border-r-4 border-emerald-500 pr-2 select-none">
+                  שרת ותשתיות (Backend & Templating)
+                </h4>
+                <div className="grid grid-cols-3 gap-3">
+                  {/* Flask */}
+                  <div className="bg-white border border-slate-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:shadow-sm transition-shadow">
+                    <div className="h-10 w-full flex items-center justify-center mb-1.5">
+                      <img src={flaskLogo} alt="Flask" className="max-h-full max-w-[80%] object-contain" />
+                    </div>
+                    <div>
+                      <h5 className="text-[11px] md:text-xs font-bold text-slate-800">Flask</h5>
+                      <p className="text-[9.5px] text-slate-500 mt-1 font-sans leading-normal">ניהול לוגיקת האפליקציה והשרת</p>
+                    </div>
+                  </div>
+
+                  {/* SQLAlchemy */}
+                  <div className="bg-white border border-slate-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:shadow-sm transition-shadow">
+                    <div className="h-10 w-full flex items-center justify-center mb-1.5">
+                      <img src={sqlalchemyLogo} alt="SQLAlchemy" className="max-h-full max-w-[80%] object-contain" />
+                    </div>
+                    <div>
+                      <h5 className="text-[11px] md:text-xs font-bold text-slate-800">SQLAlchemy</h5>
+                      <p className="text-[9.5px] text-slate-500 mt-1 font-sans leading-normal">ORM לקישור פשוט לבסיס הנתונים</p>
+                    </div>
+                  </div>
+
+                  {/* Jinja2 */}
+                  <div className="bg-white border border-slate-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:shadow-sm transition-shadow">
+                    <div className="h-10 w-full flex items-center justify-center mb-1.5">
+                      <img src={jinjaLogo} alt="Jinja2" className="max-h-full max-w-[80%] object-contain" />
+                    </div>
+                    <div>
+                      <h5 className="text-[11px] md:text-xs font-bold text-slate-800">Jinja2</h5>
+                      <p className="text-[9.5px] text-slate-500 mt-1 font-sans leading-normal">יצירת HTML דינמי ישירות מהשרת</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Category 3: Cloud & Integrations */}
+              <div>
+                <h4 className="text-xs md:text-[13px] font-extrabold text-slate-800 mb-2 border-r-4 border-purple-500 pr-2 select-none">
+                  ענן, בסיס נתונים ואינטגרציות (Cloud & Database)
+                </h4>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                  {/* PostgreSQL (Neon) */}
+                  <div className="bg-white border border-slate-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:shadow-sm transition-shadow">
+                    <div className="h-10 w-full flex items-center justify-center mb-1.5 gap-1">
+                      <img src={postgresLogo} alt="Postgres" className="max-h-full max-w-[45%] object-contain" />
+                      <img src={neonLogo} alt="Neon" className="max-h-full max-w-[45%] rounded-full object-contain" />
+                    </div>
+                    <div>
+                      <h5 className="text-[11px] md:text-xs font-bold text-slate-800">Postgres (Neon)</h5>
+                      <p className="text-[9px] text-slate-500 mt-1 font-sans leading-normal">בסיס נתונים בענן (Serverless)</p>
+                    </div>
+                  </div>
+
+                  {/* Vercel */}
+                  <div className="bg-white border border-slate-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:shadow-sm transition-shadow">
+                    <div className="h-10 w-full flex items-center justify-center mb-1.5">
+                      <img src={vercelLogo} alt="Vercel" className="max-h-full max-w-[80%] object-contain" />
+                    </div>
+                    <div>
+                      <h5 className="text-[11px] md:text-xs font-bold text-slate-800">Vercel</h5>
+                      <p className="text-[9px] text-slate-500 mt-1 font-sans leading-normal">פריסה דינמית ואירוח בענן</p>
+                    </div>
+                  </div>
+
+                  {/* HTMX */}
+                  <div className="bg-white border border-slate-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:shadow-sm transition-shadow">
+                    <div className="h-10 w-full flex items-center justify-center mb-1.5">
+                      <img src={htmxLogo} alt="HTMX" className="max-h-full max-w-[80%] object-contain" />
+                    </div>
+                    <div>
+                      <h5 className="text-[11px] md:text-xs font-bold text-slate-800">HTMX</h5>
+                      <p className="text-[9px] text-slate-500 mt-1 font-sans leading-normal">עדכון דינמי מהיר ללא רענון דף</p>
+                    </div>
+                  </div>
+
+                  {/* ngrok */}
+                  <div className="bg-white border border-slate-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:shadow-sm transition-shadow">
+                    <div className="h-10 w-full flex items-center justify-center mb-1.5">
+                      <img src={ngrokLogo} alt="ngrok" className="max-h-full max-w-[80%] rounded-md object-contain" />
+                    </div>
+                    <div>
+                      <h5 className="text-[11px] md:text-xs font-bold text-slate-800">ngrok</h5>
+                      <p className="text-[9px] text-slate-500 mt-1 font-sans leading-normal">חיבור מודל ה-AI המקומי מהבית</p>
+                    </div>
+                  </div>
+
+                  {/* Spoonacular */}
+                  <div className="bg-white border border-slate-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:shadow-sm transition-shadow">
+                    <div className="h-10 w-full flex items-center justify-center mb-1.5">
+                      <img src={spoonacularLogo} alt="Spoonacular" className="max-h-full max-w-[80%] object-contain" />
+                    </div>
+                    <div>
+                      <h5 className="text-[11px] md:text-xs font-bold text-slate-800">Spoonacular</h5>
+                      <p className="text-[9px] text-slate-500 mt-1 font-sans leading-normal">API למאגר מתכונים עשיר</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
           {slide.number === 4 && (
-            <div className={`space-y-2 ${isFullscreen ? "max-w-5xl mx-auto w-full" : ""}`}>
-              <span className="text-[10px] text-purple-600 font-mono block font-bold">סימולטור Prompting של שף ה-AI מבוסס Gemini:</span>
-              <AIChefSandbox />
+            <div className={`bg-slate-50 border border-slate-250 text-center shadow-sm flex flex-col items-center ${isFullscreen ? "p-6 rounded-2xl max-w-3xl mx-auto" : "p-4 rounded-xl"}`}>
+              <div className={`relative rounded-lg overflow-hidden border border-slate-200 ${isFullscreen ? "w-[680px] h-[360px] max-w-full mb-3" : "w-full max-w-xs h-28 mb-3"}`}>
+                <img src={exhaustedDeveloperJinja} alt="Exhausted developer looking at spaghetti code" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent flex items-end p-2 justify-center">
+                  <span className="text-white text-xs font-bold font-sans drop-shadow-md">"קרב אבוד מראש"</span>
+                </div>
+              </div>
+              <span className="text-[10px] text-slate-400 block mb-1 font-mono uppercase font-bold">ויז'ואל קונספט</span>
+              <p className="text-slate-655 font-sans text-xs md:text-sm font-medium italic">
+                {slide.concept}
+              </p>
+              <div className="mt-4 flex justify-center">
+                <div className="px-4 py-2 bg-blue-50 border border-blue-200 rounded-xl max-w-sm flex items-center gap-3 shadow-xs">
+                  <Terminal className="h-4 w-4 text-blue-600" />
+                  <span className="text-[11px] font-sans text-blue-800 font-bold">
+                    האתגר: לכתוב הכל מאפס (HTML, CSS, JS, Python) – ובלי עזרת AI (!)
+                  </span>
+                </div>
+              </div>
             </div>
           )}
 
           {slide.number === 5 && (
+            <div className={`space-y-2 ${isFullscreen ? "max-w-3xl mx-auto w-full" : ""}`}>
+              <span className="text-[10px] text-blue-600 font-mono block font-bold">סימולטור אינטראקטיבי: רענון מלא (Jinja2) לעומת עדכון מהיר (HTMX)</span>
+              <JinjaTemplateSandbox />
+            </div>
+          )}
+
+          {slide.number === 6 && (
             <div className={`space-y-2 ${isFullscreen ? "max-w-3xl mx-auto w-full" : ""}`}>
               <span className="text-[10px] text-blue-600 font-mono block font-bold">התבונה שברכיבה מהירה על גלגלים קיימים:</span>
               <LazyAPISandbox />
             </div>
           )}
 
-          {slide.number === 6 && (
+          {slide.number === 7 && (
+            <div className={`space-y-2 ${isFullscreen ? "max-w-5xl mx-auto w-full" : ""}`}>
+              <span className="text-[10px] text-purple-600 font-mono block font-bold">סימולטור השף המקומי (לייב דמו):</span>
+              <AIChefSandbox />
+            </div>
+          )}
+
+          {slide.number === 8 && (
             <div className={`bg-gradient-to-r from-slate-50 to-slate-100 border border-slate-250 text-center space-y-3 shadow-xs ${isFullscreen ? "p-8 rounded-2xl max-w-3xl mx-auto" : "p-5 rounded-2xl"}`}>
               <div className="flex justify-center flex-col items-center">
                 <Award className="h-10 w-10 text-blue-600 animate-bounce mb-2" />
                 <h4 className="text-sm md:text-base font-extrabold text-slate-900">מסקנה מהפרויקט: הפרודוקטיביות החדשה 🚀</h4>
               </div>
               <p className="text-xs md:text-sm text-slate-655 max-w-lg mx-auto leading-relaxed">
-                פה אמנם השתמשתי בAI לכתוב לרוב קומנטים (ולמצגת כמובן), אבל בכללי אולי כן לעבוד עם AI?
+                אוקיי, במצגת הזו פשוט ביצענו Code Review ל-AI כמו מפתחים ב-2026. אבל בקוד של הפרויקט? סבלנו בלי Copilot כמו מפתחים בשנות ה-90, נלחמנו בשיניים והבנו כל פסיק!
               </p>
               <div className="pt-2 flex justify-center">
                 <a
