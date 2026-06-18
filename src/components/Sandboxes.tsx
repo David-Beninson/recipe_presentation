@@ -463,7 +463,7 @@ export function AIChefSandbox() {
         </div>
 
         {/* Display response / code */}
-        <div className="flex-1 bg-white border border-slate-200 rounded-2xl p-4 flex flex-col justify-between min-h-[300px] overflow-hidden shadow-xs">
+        <div className="flex-1 bg-white border border-slate-200 rounded-2xl p-4 flex flex-col justify-between h-[380px] overflow-hidden shadow-xs">
           {errorInfo && (
             <div className="mb-3 px-3 py-2 bg-amber-50 text-amber-800 border border-amber-200 rounded-lg text-[11px] flex items-center gap-2 font-mono font-bold">
               <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-amber-600" />
@@ -486,10 +486,10 @@ export function AIChefSandbox() {
           )}
 
           {responseText && !isLoading && (
-            <div className="flex-1 flex flex-col lg:flex-row gap-4 h-full">
+            <div className="flex-1 flex flex-col lg:flex-row gap-4 h-[calc(100%-20px)] overflow-hidden">
               {/* Structured View */}
               {useStructuredJson && renderedRecipe ? (
-                <div className="flex-1 space-y-2 text-left" dir="ltr">
+                <div className="flex-1 space-y-2 text-left overflow-y-auto pr-1 h-full" dir="ltr">
                   <div className="flex justify-between items-center bg-purple-50 px-2 py-1 rounded-md border border-purple-100 text-[10px] text-purple-700 font-bold font-mono">
                     <span>Parsable Response UI</span>
                     <span className="px-1.5 py-0.5 text-[9px] bg-emerald-100 text-emerald-800 font-bold rounded">Success ✅</span>
@@ -509,7 +509,7 @@ export function AIChefSandbox() {
                     </ul>
                   </div>
 
-                  <div className="text-[11px] bg-purple-50 p-2.5 rounded-xl border border-purple-100 max-h-[120px] overflow-y-auto">
+                  <div className="text-[11px] bg-purple-50 p-2.5 rounded-xl border border-purple-100 max-h-[110px] overflow-y-auto">
                     <h5 className="font-extrabold text-purple-900 mb-1 text-xs">Instructions:</h5>
                     <ol className="list-decimal list-inside space-y-1 text-purple-800 leading-relaxed font-sans">
                       {renderedRecipe.instructions?.map((step, i) => <li key={i}>{step}</li>)}
@@ -519,12 +519,12 @@ export function AIChefSandbox() {
               ) : (
                 /* Plain Unstructured text view */
                 responseText && !renderedRecipe && (
-                  <div className="flex-1 space-y-2" dir="ltr">
+                  <div className="flex-1 space-y-2 h-full flex flex-col" dir="ltr">
                     <div className="flex justify-between items-center bg-amber-50/50 px-2 py-1 rounded-md border border-amber-100">
                       <span className="text-[10px] text-amber-800 font-bold font-mono">Unstructured Plain Text</span>
                       <span className="px-1.5 py-0.5 text-[9px] bg-yellow-100 text-yellow-800 font-bold rounded">Friendly but chaotic</span>
                     </div>
-                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs text-slate-700 font-sans leading-relaxed whitespace-pre-wrap max-h-[220px] overflow-y-auto">
+                    <div className="flex-1 bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs text-slate-700 font-sans leading-relaxed whitespace-pre-wrap overflow-y-auto">
                       {responseText}
                     </div>
                   </div>
@@ -532,12 +532,12 @@ export function AIChefSandbox() {
               )}
 
               {/* Raw JSON Code View */}
-              <div className="w-full lg:w-1/2 flex flex-col justify-between">
-                <div className="flex justify-between items-center bg-slate-800 px-2.5 py-1 rounded-t-xl border-t border-r border-l border-slate-900 shadow-xs">
+              <div className="w-full lg:w-1/2 flex flex-col h-full overflow-hidden">
+                <div className="flex justify-between items-center bg-slate-800 px-2.5 py-1 rounded-t-xl border-t border-r border-l border-slate-900 shadow-xs shrink-0">
                   <span className="text-[10px] text-slate-350 font-mono font-bold">Raw JSON Payload</span>
                   <span className="text-[9px] text-purple-300 font-mono font-bold">UTF-8 Output</span>
                 </div>
-                <pre className="flex-1 bg-slate-900 text-[11px] text-emerald-400 p-3 rounded-b-xl border border-slate-955 font-mono overflow-auto max-h-[220px] text-left shadow-inner" dir="ltr">
+                <pre className="flex-1 bg-slate-900 text-[11px] text-emerald-400 p-3 rounded-b-xl border border-slate-955 font-mono overflow-y-auto text-left shadow-inner" dir="ltr">
                   {responseText}
                 </pre>
               </div>

@@ -248,72 +248,71 @@ export default function App() {
 
       <style dangerouslySetInnerHTML={{
         __html: `
-        .fullscreen-active .grid-cols-1.md\\:grid-cols-2 {
-          gap: 0.5rem !important;
+        .fullscreen-active .grid-cols-1.md\:grid-cols-2 {
+          gap: 1.5rem !important;
         }
         .fullscreen-active .border-4 {
-          border-width: 2px !important;
-          padding: 0.5rem !important;
-          border-radius: 0.75rem !important;
+          border-width: 4px !important;
+          padding: 1.25rem !important;
+          border-radius: 1.5rem !important;
         }
-        .fullscreen-active .min-h-\\[105px\\],
-        .fullscreen-active .min-h-\\[300px\\] {
-          min-height: 0 !important;
-          min-height: 45px !important;
-          margin-bottom: 0.25rem !important;
+        .fullscreen-active .min-h-\[105px\\],
+        .fullscreen-active .min-h-\[300px\] {
+          min-height: 120px !important;
+          margin-bottom: 0.75rem !important;
         }
         .fullscreen-active .mb-4,
         .fullscreen-active .my-4,
         .fullscreen-active .mb-3 {
-          margin-bottom: 0.25rem !important;
-          margin-top: 0.25rem !important;
+          margin-bottom: 0.75rem !important;
+          margin-top: 0.5rem !important;
         }
-        .fullscreen-active p:not(.slide-bullet-point),
-        .fullscreen-active .text-xs:not(.slide-bullet-point),
-        .fullscreen-active .text-sm:not(.slide-bullet-point) {
-          font-size: 0.7rem !important;
-          line-height: 1.2 !important;
+        .fullscreen-active p:not(.slide-bullet-point):not(.slide-punchline-text),
+        .fullscreen-active .text-xs:not(.slide-bullet-point):not(.slide-punchline-text),
+        .fullscreen-active .text-sm:not(.slide-bullet-point):not(.slide-punchline-text) {
+          font-size: 0.85rem !important;
+          line-height: 1.4 !important;
         }
         .fullscreen-active h4 {
-          font-size: 0.75rem !important;
+          font-size: 1rem !important;
         }
         .fullscreen-active form {
-          margin-bottom: 0.25rem !important;
+          margin-bottom: 0.75rem !important;
         }
         .fullscreen-active input,
         .fullscreen-active button {
-          font-size: 0.7rem !important;
-          padding-top: 0.25rem !important;
-          padding-bottom: 0.25rem !important;
+          font-size: 0.85rem !important;
+          padding-top: 0.4rem !important;
+          padding-bottom: 0.4rem !important;
         }
         .fullscreen-active pre {
-          font-size: 0.65rem !important;
+          font-size: 0.85rem !important;
         }
-        .fullscreen-active .max-h-\\[220px\\] {
-          max-height: 80px !important;
+        .fullscreen-active .max-h-\[220px\] {
+          max-height: 180px !important;
         }
-        .fullscreen-active .max-h-\\[120px\\] {
-          max-height: none !important;
+        .fullscreen-active .max-h-\[120px\] {
+          max-height: 180px !important;
         }
         .fullscreen-active .gap-6,
         .fullscreen-active .gap-5 {
-          gap: 0.5rem !important;
+          gap: 1.5rem !important;
         }
-        .fullscreen-active .lg\\:w-1\\/2.justify-between {
+        .fullscreen-active .lg\:w-1\/2.justify-between {
           justify-content: flex-start !important;
         }
-        .fullscreen-active .lg\\:w-1\\/2.justify-between pre {
-          margin-top: -1px !important;
+        .fullscreen-active .lg\:w-1\/2.justify-between pre {
+          margin-top: 0 !important;
           flex: 1 !important;
           height: auto !important;
           max-height: none !important;
         }
         .fullscreen-active .bg-amber-50 {
-          padding: 0.25rem 0.5rem !important;
-          margin-bottom: 0.35rem !important;
+          padding: 0.5rem 0.75rem !important;
+          margin-bottom: 0.75rem !important;
         }
-        .fullscreen-active .lg\\:w-1\\/3 {
-          width: 22% !important;
+        .fullscreen-active .lg\:w-1\/3 {
+          width: 33.333% !important;
         }
       `}} />
 
@@ -786,24 +785,24 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
         <div>
           {slide.content.subheading && (
             <span className={`inline-block border font-bold rounded-sm w-fit font-sans ${isFullscreen
-                ? "px-2 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 text-[10px] mb-1.5"
-                : "px-2.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 text-[11px] mb-2.5"
+                ? "px-2.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 text-xs md:text-sm mb-1.5"
+                : "px-2.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 text-xs md:text-sm mb-2.5"
               }`}>
               {slide.content.subheading}
             </span>
           )}
-          <h2 className={`font-sans tracking-tight leading-none font-extrabold ${skin.fontTitle} ${isFullscreen ? "text-xl md:text-3xl lg:text-4xl" : "text-2xl md:text-4xl"
+          <h2 className={`font-sans tracking-tight leading-none font-extrabold ${skin.fontTitle} ${isFullscreen ? "text-2xl md:text-3xl lg:text-4xl" : "text-2xl md:text-4xl"
             }`}>
             {slide.title}
           </h2>
         </div>
 
         {/* Bullet points mapping */}
-        <div className={`pt-1 ${isFullscreen ? "space-y-2.5 lg:space-y-3.5" : "space-y-4"}`}>
+        <div className={`pt-1 ${isFullscreen ? "space-y-2 lg:space-y-2.5" : "space-y-3"}`}>
           {slide.content.points.map((point, index) => (
-            <div key={index} className="flex items-start gap-3.5 text-right">
-              <span className={`mt-2.5 shrink-0 h-2.5 w-2.5 rounded-full ${slide.persona === "technical" ? "bg-emerald-500" : slide.persona === "marketing" ? "bg-amber-500" : "bg-purple-500"}`} />
-              <p className={`slide-bullet-point leading-relaxed font-sans ${isFullscreen ? "text-slate-900 text-lg md:text-xl lg:text-2xl font-semibold" : "text-slate-800 text-base md:text-lg lg:text-xl font-medium"
+            <div key={index} className="flex items-start gap-2.5 text-right">
+              <span className={`mt-2 shrink-0 h-1.5 w-1.5 rounded-full ${slide.persona === "technical" ? "bg-emerald-500" : slide.persona === "marketing" ? "bg-amber-500" : "bg-purple-500"}`} />
+              <p className={`slide-bullet-point leading-relaxed font-sans ${isFullscreen ? "text-slate-900 text-base md:text-lg lg:text-xl font-medium" : "text-slate-700 text-sm md:text-base"
                 }`}>
                 {point}
               </p>
@@ -837,12 +836,12 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
           )}
 
           {slide.number === 2 && (
-            <div className={`bg-slate-50 border border-slate-250 shadow-sm ${isFullscreen ? "p-6 rounded-2xl max-w-2xl mx-auto" : "p-4 rounded-xl"}`}>
+            <div className={`bg-slate-50 border border-slate-250 shadow-sm ${isFullscreen ? "p-6 rounded-2xl max-w-3xl mx-auto" : "p-4 rounded-xl"}`}>
               <div className="flex items-center gap-2 mb-2">
                 <span className="px-2 py-0.5 text-[10px] bg-emerald-100 border border-emerald-250 text-emerald-800 rounded font-mono font-bold">FastAPI Check</span>
                 <span className="text-[11px] text-slate-500 font-sans">Reality Check: סימולציה של חלוקת תהליכי Async</span>
               </div>
-              <div className={`bg-slate-900 rounded-lg border border-slate-950 overflow-auto font-mono text-zinc-300 text-left shadow-inner whitespace-pre ${isFullscreen ? "p-5 text-xs leading-relaxed" : "p-3.5 text-[11.5px]"}`} dir="ltr">
+              <div className={`bg-slate-900 rounded-lg border border-slate-950 overflow-auto font-mono text-zinc-300 text-left shadow-inner whitespace-pre ${isFullscreen ? "p-5 text-sm leading-relaxed" : "p-3.5 text-[11.5px]"}`} dir="ltr">
                 <span className="text-emerald-400 font-bold">@app.get("/")</span>{"\n"}
                 <span className="text-purple-400 font-bold">async def</span> <span className="text-blue-400">home</span>(request: Request):{"\n"}
                 {"  "}<span className="text-zinc-500"># Jinja2 rendering inside Event Loop!</span>{"\n"}
@@ -853,28 +852,28 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
           )}
 
           {slide.number === 3 && (
-            <div className="space-y-2">
+            <div className={`space-y-2 ${isFullscreen ? "max-w-3xl mx-auto w-full" : ""}`}>
               <span className="text-[10px] text-blue-600 font-mono block font-bold">עדויות ופעולת Sandbox לעדות החיסכון:</span>
               <JinjaTemplateSandbox />
             </div>
           )}
 
           {slide.number === 4 && (
-            <div className="space-y-2">
+            <div className={`space-y-2 ${isFullscreen ? "max-w-5xl mx-auto w-full" : ""}`}>
               <span className="text-[10px] text-purple-600 font-mono block font-bold">סימולטור Prompting של שף ה-AI מבוסס Gemini:</span>
               <AIChefSandbox />
             </div>
           )}
 
           {slide.number === 5 && (
-            <div className="space-y-2">
+            <div className={`space-y-2 ${isFullscreen ? "max-w-3xl mx-auto w-full" : ""}`}>
               <span className="text-[10px] text-blue-600 font-mono block font-bold">התבונה שברכיבה מהירה על גלגלים קיימים:</span>
               <LazyAPISandbox />
             </div>
           )}
 
           {slide.number === 6 && (
-            <div className={`bg-gradient-to-r from-slate-50 to-slate-100 border border-slate-250 text-center space-y-3 shadow-xs ${isFullscreen ? "p-8 rounded-2xl max-w-2xl mx-auto" : "p-5 rounded-2xl"}`}>
+            <div className={`bg-gradient-to-r from-slate-50 to-slate-100 border border-slate-250 text-center space-y-3 shadow-xs ${isFullscreen ? "p-8 rounded-2xl max-w-3xl mx-auto" : "p-5 rounded-2xl"}`}>
               <div className="flex justify-center flex-col items-center">
                 <Award className="h-10 w-10 text-blue-600 animate-bounce mb-2" />
                 <h4 className="text-sm md:text-base font-extrabold text-slate-900">מסקנה מהפרויקט: הפרודוקטיביות החדשה 🚀</h4>
@@ -909,7 +908,7 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
           }`}>
           <div className="flex items-center gap-2">
             <Zap className={`h-4 w-4 shrink-0 ${slide.persona === "technical" ? "text-emerald-600" : slide.persona === "marketing" ? "text-amber-600" : "text-purple-600"}`} />
-            <span className="font-sans font-bold text-xs md:text-sm">
+            <span className={`slide-punchline-text font-sans font-bold ${isFullscreen ? "text-sm md:text-base lg:text-lg" : "text-xs md:text-sm"}`}>
               {slide.content.punchline}
             </span>
           </div>
