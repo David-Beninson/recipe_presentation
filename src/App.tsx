@@ -817,8 +817,8 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
         {/* DYNAMIC SANDBOX INTEGRATION DEPENDING ON ACTIVE SLIDE */}
         <div className={`pt-4 min-h-0 ${isFullscreen ? "mt-2" : "mt-2"}`}>
           {slide.number === 1 && (
-            <div className={`bg-slate-50 border border-slate-250 text-center shadow-sm flex flex-col items-center ${isFullscreen ? "p-6 rounded-2xl max-w-xl mx-auto" : "p-4 rounded-xl"}`}>
-              <div className={`relative rounded-lg overflow-hidden border border-slate-200 ${isFullscreen ? "w-[420px] h-60 mb-3" : "w-full max-w-xs h-28 mb-3"}`}>
+            <div className={`bg-slate-50 border border-slate-250 text-center shadow-sm flex flex-col items-center ${isFullscreen ? "p-6 rounded-2xl max-w-3xl mx-auto" : "p-4 rounded-xl"}`}>
+              <div className={`relative rounded-lg overflow-hidden border border-slate-200 ${isFullscreen ? "w-[680px] h-[360px] max-w-full mb-3" : "w-full max-w-xs h-28 mb-3"}`}>
                 <img src={exhaustedDeveloperJinja} alt="Exhausted developer looking at spaghetti code" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent flex items-end p-2 justify-center">
                   <span className="text-white text-xs font-bold font-sans drop-shadow-md">"קרב אבוד מראש"</span>
@@ -832,7 +832,7 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
                 <div className="px-4 py-2 bg-blue-50 border border-blue-200 rounded-xl max-w-sm flex items-center gap-3 shadow-xs">
                   <Terminal className="h-4 w-4 text-blue-600" />
                   <span className="text-[11px] font-sans text-blue-800 font-bold">
-                    מערך: FastAPI + Jinja2 (קרב אבוד מראש)
+                    {slide.content.punchline}
                   </span>
                 </div>
               </div>
