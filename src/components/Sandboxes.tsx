@@ -256,6 +256,70 @@ export function AIChefSandbox() {
       persona: "local_llm"
     };
 
+    const viteAiUrl = import.meta.env.VITE_AI_URL;
+
+    if (viteAiUrl && viteAiUrl !== "https://example.com" && viteAiUrl !== "MY_AI_URL") {
+      try {
+        const payload = {
+          model: "qwen2.5:3b",
+          messages: [
+            { role: "system", content: systemInstruction || "" },
+            { role: "user", content: prompt || "" }
+          ],
+          temperature: 0.2
+        };
+
+        const res = await fetch(viteAiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+          const errText = await res.text();
+          throw new Error(`Local LLM API error: ${errText}`);
+        }
+
+        const data = await res.json();
+        let content = data.choices?.[0]?.message?.content?.trim() || "";
+
+        // Strip markdown code blocks if present
+        if (content.startsWith("```")) {
+          const lines = content.split("\n");
+          if (lines[0].startsWith("```json") || lines[0].startsWith("```")) {
+            content = lines.slice(1, -1).join("\n");
+          } else {
+            content = lines.slice(1).join("\n");
+          }
+        }
+
+        setIsLoading(false);
+        setResponseText(content.trim());
+        if (useStructuredJson) {
+          try {
+            const parsed = JSON.parse(content.trim());
+            setRenderedRecipe(parsed);
+          } catch (e) {
+            console.error("JSON parsing error of response:", e);
+          }
+        }
+        return;
+      } catch (err: any) {
+        console.error("Direct AI URL Error:", err);
+        setIsLoading(false);
+        setErrorInfo({ isSimulated: true, message: "פועל במצב סימולציה (הקריאה הישירה ל-AI נכשלה): " + err.message });
+        
+        if (useStructuredJson) {
+          const mockJson = mockResponse.json;
+          setResponseText(mockJson);
+          setRenderedRecipe(JSON.parse(mockJson));
+        } else {
+          setResponseText(mockResponse.text);
+        }
+        return;
+      }
+    }
+
     // Check if running on GitHub Pages (static deployment) or local file system
     const isStaticDeployment = 
       window.location.hostname.endsWith(".github.io") || 
@@ -265,7 +329,7 @@ export function AIChefSandbox() {
     if (isStaticDeployment) {
       setTimeout(() => {
         setIsLoading(false);
-        setErrorInfo({ isSimulated: true, message: "פועל במצב סימולציה (סביבת GitHub Pages סטטית)" });
+        setErrorInfo({ isSimulated: true, message: "פועל במצב סימולציה (סביבת GitHub Pages סטטית - הגדר VITE_AI_URL לריצה חיה)" });
         if (useStructuredJson) {
           const mockJson = mockResponse.json;
           setResponseText(mockJson);
