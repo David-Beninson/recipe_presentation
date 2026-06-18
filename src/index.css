@@ -4,6 +4,14 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --color-red-primary: #e74c3c;
+  --color-red-dark: #c0392b;
+  --color-red-glow: rgba(231, 76, 60, 0.18);
+  --color-red-pale: #fff5f5;
+  --color-violet-primary: #7c3aed;
+  --color-violet-dark: #6d28d9;
+  --color-violet-glow: rgba(124, 58, 237, 0.14);
+  --color-violet-pale: #f5f3ff;
 }
 
 @keyframes fadeIn {

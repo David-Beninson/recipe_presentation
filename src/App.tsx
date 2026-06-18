@@ -134,7 +134,7 @@ export default function App() {
     const newId = Math.random().toString();
     const newLeft = Math.floor(Math.random() * 80) + 10; // random percentage
     setReactions((prev) => [...prev, { id: newId, emoji, left: newLeft }]);
-    
+
     // Clear after animation
     setTimeout(() => {
       setReactions((prev) => prev.filter((r) => r.id !== newId));
@@ -183,7 +183,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans relative antialiased overflow-x-hidden">
-      
+
       {/* Decorative Grid Line Patterns */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 pointer-events-none" />
 
@@ -253,7 +253,7 @@ export default function App() {
           <div className="flex items-center gap-2 bg-blue-950/50 border border-blue-900/40 px-3 py-1.5 rounded-lg font-mono text-xs text-blue-400">
             <Clock className="h-3.5 w-3.5" />
             <span>זמן כולל: {formatTimer(elapsedTime)}</span>
-            <button 
+            <button
               onClick={() => setIsTimerRunning(!isTimerRunning)}
               className="hover:text-blue-300 ml-1 shrink-0"
             >
@@ -265,7 +265,7 @@ export default function App() {
 
       {/* CORE DISPLAY ROUTER */}
       <main className="flex-1 flex flex-col overflow-hidden">
-        
+
         {/* VIEW 1: BENTO OVERVIEW GRID */}
         {viewMode === "grid" && (
           <div className="flex-1 overflow-y-auto p-8 max-w-7xl mx-auto w-full text-right" dir="rtl">
@@ -290,20 +290,18 @@ export default function App() {
                     setCurrentSlideIndex(idx);
                     setViewMode("presenter");
                   }}
-                  className={`border group cursor-pointer bg-white rounded-2xl p-5 hover:border-blue-500/50 transition-all hover:translate-y-[-2px] flex flex-col justify-between min-h-[220px] shadow-sm ${
-                    currentSlideIndex === idx ? "border-blue-600 ring-2 ring-blue-600/10 shadow-md bg-slate-50/50" : "border-slate-200"
-                  }`}
+                  className={`border group cursor-pointer bg-white rounded-2xl p-5 hover:border-blue-500/50 transition-all hover:translate-y-[-2px] flex flex-col justify-between min-h-[220px] shadow-sm ${currentSlideIndex === idx ? "border-blue-600 ring-2 ring-blue-600/10 shadow-md bg-slate-50/50" : "border-slate-200"
+                    }`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3 text-xs">
                       <span className="font-mono text-slate-400 font-bold">שקף {slide.number} מתוך {slides.length}</span>
-                      <span className={`px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase tracking-wider font-semibold border ${
-                        slide.persona === "technical" 
-                          ? "bg-emerald-50 text-emerald-700 border-emerald-200" 
-                          : slide.persona === "marketing" 
-                          ? "bg-amber-50 text-amber-700 border-amber-200" 
-                          : "bg-purple-50 text-purple-700 border-purple-200"
-                      }`}>
+                      <span className={`px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase tracking-wider font-semibold border ${slide.persona === "technical"
+                          ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                          : slide.persona === "marketing"
+                            ? "bg-amber-50 text-amber-700 border-amber-200"
+                            : "bg-purple-50 text-purple-700 border-purple-200"
+                        }`}>
                         {slide.persona === "technical" ? "טכני" : slide.persona === "marketing" ? "שיווקי" : "משותף"}
                       </span>
                     </div>
@@ -329,21 +327,20 @@ export default function App() {
         {/* VIEW 2: SPLIT VIEW PRESENTER MODE (DEFAULT) */}
         {viewMode === "presenter" && (
           <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
-            
+
             {/* PRESENTER SIDEBAR: SPEECH NOTES & INTERACTIVE SIMULATION OPTIONS */}
             <div className="w-full lg:w-[410px] border-l border-slate-200 bg-white flex flex-col justify-between max-h-full overflow-hidden shrink-0 text-right" dir="rtl">
-              
+
               {/* Timing & Persona metrics */}
               <div className="p-4 border-b border-slate-200 space-y-3 bg-slate-50/50">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold text-slate-600">איפיון וסגנון השקף:</span>
-                  <span className={`px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold border ${
-                    currentSlide.persona === "technical" 
-                      ? "bg-emerald-50 text-emerald-700 border-emerald-200" 
-                      : currentSlide.persona === "marketing" 
-                      ? "bg-amber-50 text-amber-700 border-amber-200" 
-                      : "bg-purple-50 text-purple-700 border-purple-200"
-                  }`}>
+                  <span className={`px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold border ${currentSlide.persona === "technical"
+                      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                      : currentSlide.persona === "marketing"
+                        ? "bg-amber-50 text-amber-700 border-amber-200"
+                        : "bg-purple-50 text-purple-700 border-purple-200"
+                    }`}>
                     {currentSlide.persona === "technical" ? "טכנולוגי (Technical)" : currentSlide.persona === "marketing" ? "שיווקי (Marketing)" : "שיתופי (Shared)"}
                   </span>
                 </div>
@@ -362,23 +359,23 @@ export default function App() {
                   <span className="text-xs font-mono font-bold text-blue-600 flex items-center gap-1">
                     <FileText className="h-3.5 w-3.5" /> הערות הדובר (Teleprompter)
                   </span>
-                  
+
                   {/* Font adjustments */}
                   <div className="flex gap-1 bg-slate-100 p-0.5 rounded border border-slate-200 text-[10px]">
-                    <button 
-                      onClick={() => setFontSizeSetting("sm")} 
+                    <button
+                      onClick={() => setFontSizeSetting("sm")}
                       className={`px-1.5 py-0.5 rounded ${fontSizeSetting === "sm" ? "bg-white text-slate-900 shadow-sm border border-slate-250 font-bold" : "text-slate-400"}`}
                     >
                       A-
                     </button>
-                    <button 
-                      onClick={() => setFontSizeSetting("md")} 
+                    <button
+                      onClick={() => setFontSizeSetting("md")}
                       className={`px-1.5 py-0.5 rounded ${fontSizeSetting === "md" ? "bg-white text-slate-900 shadow-sm border border-slate-250 font-bold" : "text-slate-400"}`}
                     >
                       A
                     </button>
-                    <button 
-                      onClick={() => setFontSizeSetting("lg")} 
+                    <button
+                      onClick={() => setFontSizeSetting("lg")}
                       className={`px-1.5 py-0.5 rounded ${fontSizeSetting === "lg" ? "bg-white text-slate-900 shadow-sm border border-slate-250 font-bold" : "text-slate-400"}`}
                     >
                       A+
@@ -486,7 +483,7 @@ export default function App() {
 
             {/* PRESENTATION DISPLAY SCREEN (CENTERED SPLIT) */}
             <div className="flex-1 bg-slate-100 p-6 flex flex-col justify-between overflow-y-auto min-h-0 border-r border-slate-200">
-              
+
               {/* SLIDE WRAPPER CARD */}
               <div className="flex-1 flex items-center justify-center">
                 <PresenterPageSlide key={currentSlide.id} slide={currentSlide} />
@@ -511,11 +508,10 @@ export default function App() {
                       <button
                         key={i}
                         onClick={() => setCurrentSlideIndex(i)}
-                        className={`h-2 rounded-full transition-all ${
-                          i === currentSlideIndex 
-                            ? "w-6 bg-blue-600 shadow-sm" 
+                        className={`h-2 rounded-full transition-all ${i === currentSlideIndex
+                            ? "w-6 bg-blue-600 shadow-sm"
                             : "w-2 bg-slate-350 hover:bg-slate-400"
-                        }`}
+                          }`}
                       />
                     ))}
                   </div>
@@ -536,7 +532,7 @@ export default function App() {
         {/* VIEW 3: FULLSCREEN PRESENTATION MODE */}
         {viewMode === "fullscreen" && (
           <div className="flex-1 bg-slate-900 flex flex-col justify-between p-8 relative overflow-hidden transition-all duration-300" dir="rtl">
-            
+
             {/* Minimal floating navigation header */}
             <div className="absolute top-6 left-6 right-6 flex items-center justify-between z-10 px-4 pointer-events-none">
               <span className="px-3 py-1 bg-slate-950/80 backdrop-blur-md rounded-full text-xs font-mono text-slate-300 border border-slate-800">
@@ -588,7 +584,7 @@ export default function App() {
 // RENDER COMPONENT: Dynamic Persona Page Slide
 // ==========================================
 function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData; isFullscreen?: boolean; key?: React.Key }) {
-  
+
   // Choose layout tokens based on slide's persona skin
   const getSkinTheme = (persona: SlidePersona) => {
     switch (persona) {
@@ -625,13 +621,12 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
   const skin = getSkinTheme(slide.persona);
 
   return (
-    <div 
-      className={`w-full max-w-5xl rounded-3xl border-8 border-slate-200 bg-white shadow-xl shadow-slate-200/50 flex flex-col justify-between overflow-hidden animate-fade-in relative transition-all duration-300 ${
-        isFullscreen ? "min-h-[550px] p-8 md:p-12" : "min-h-[460px] p-6 md:p-8"
-      }`}
+    <div
+      className={`w-full max-w-5xl rounded-3xl border-8 border-slate-200 bg-white shadow-xl shadow-slate-200/50 flex flex-col justify-between overflow-hidden animate-fade-in relative transition-all duration-300 ${isFullscreen ? "min-h-[550px] p-8 md:p-12" : "min-h-[460px] p-6 md:p-8"
+        }`}
       dir="rtl"
     >
-      
+
       {/* Decorative Slide Background elements */}
       <div className="absolute top-0 right-0 left-0 h-1.5 bg-gradient-to-l from-blue-600 via-indigo-600 to-transparent opacity-90" />
 
@@ -640,7 +635,7 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
         <span className="font-mono text-[10px] tracking-widest text-slate-400 font-bold">
           SLIDEDECK • NO.{slide.number} PAGE
         </span>
-        
+
         <span className="text-[10px] bg-slate-100 border border-slate-200 text-slate-600 px-2.5 py-0.5 rounded font-mono font-bold">
           {skin.indicatorBubble}
         </span>
@@ -729,25 +724,24 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
           )}
 
           {slide.number === 6 && (
-            <div className="space-y-2">
-              <span className="text-[10px] text-amber-600 font-mono block font-bold">סימולציית Optimistic UI מבוססת חווית לקוח:</span>
-              <OptimisticUISandbox />
-            </div>
-          )}
-
-          {slide.number === 7 && (
             <div className="bg-gradient-to-r from-slate-50 to-slate-100 p-5 rounded-2xl border border-slate-250 text-center space-y-3 shadow-xs">
               <div className="flex justify-center flex-col items-center">
                 <Award className="h-10 w-10 text-blue-600 animate-bounce mb-2" />
-                <h4 className="text-sm md:text-base font-extrabold text-slate-900">מסקנה מהפרויקט: הפשטות ניצחה בגדול 🚀</h4>
+                <h4 className="text-sm md:text-base font-extrabold text-slate-900">מסקנה מהפרויקט: הפרודוקטיביות החדשה 🚀</h4>
               </div>
               <p className="text-xs md:text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
-                הוכחת היתכנות (MVP) מנצחת נבנית פשוט, נפרכת מהר, מונגשת אינטראקטיבית באמצעות HTMX, ומקבלת את השדרוג האסטרטגי שלה עם AI קוהרנטי.
+                פה אמנם השתמשתי בAI לכתוב לרוב קומנטים (ולמצגת כמובן), אבל בכללי אולי כן לעבוד עם AI?
               </p>
-              <div className="flex justify-center gap-4 text-[10px] text-slate-400 pt-1 font-mono font-bold">
-                <span>⚡ Latency: Minimal</span>
-                <span>🔥 DOM Overhaul: None</span>
-                <span>✨ Chef Status: Expert</span>
+              <div className="pt-2 flex justify-center">
+                <a
+                  href="https://github.com/David-Beninson/recipe_project/blob/main/README.md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold font-sans transition-all shadow-md hover:translate-y-[-1px] cursor-pointer"
+                >
+                  <span>📂</span>
+                  מעבר מהיר ל-README בפרויקט
+                </a>
               </div>
             </div>
           )}
@@ -756,13 +750,12 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
 
       {/* Slide Punchline Footer panel */}
       {slide.content.punchline && (
-        <div className={`mt-6 px-4 py-3 rounded-xl border flex items-center justify-between text-right relative overflow-hidden shadow-xs ${
-          slide.persona === "technical" 
-            ? "bg-emerald-50 border-emerald-200 text-emerald-800" 
-            : slide.persona === "marketing" 
-            ? "bg-amber-50 border-amber-200 text-amber-800" 
-            : "bg-purple-50 border-purple-200 text-purple-800"
-        }`}>
+        <div className={`mt-6 px-4 py-3 rounded-xl border flex items-center justify-between text-right relative overflow-hidden shadow-xs ${slide.persona === "technical"
+            ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+            : slide.persona === "marketing"
+              ? "bg-amber-50 border-amber-200 text-amber-800"
+              : "bg-purple-50 border-purple-200 text-purple-800"
+          }`}>
           <div className="flex items-center gap-2">
             <Zap className={`h-4 w-4 shrink-0 ${slide.persona === "technical" ? "text-emerald-600" : slide.persona === "marketing" ? "text-amber-600" : "text-purple-600"}`} />
             <span className="font-sans font-bold text-xs md:text-sm">

@@ -15,77 +15,62 @@ async function startServer() {
   // API Route: AI Chef Structured Prompts & Persona
   app.post("/api/chef", async (req, res) => {
     try {
-      const apiKey = process.env.GEMINI_API_KEY;
-      if (!apiKey || apiKey === "MY_GEMINI_API_KEY") {
-        return res.status(400).json({
-          error: "Missing API Key",
-          message: "Gemini API key is not configured in the Secrets panel yet, so simulating response! Add it to run live API calls.",
-          simulation: true
+      const aiUrl = process.env.AI_URL;
+      const { prompt, systemInstruction, formatJson, persona } = req.body;
+
+      if (aiUrl && aiUrl !== "https://example.com" && aiUrl !== "MY_AI_URL") {
+        console.log(`Routing request to local LLM via ngrok: ${aiUrl}`);
+        const payload = {
+          model: "qwen2.5:3b",
+          messages: [
+            { role: "system", content: systemInstruction || "" },
+            { role: "user", content: prompt || "" }
+          ],
+          temperature: 0.2
+        };
+
+        const response = await fetch(aiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          const errText = await response.text();
+          throw new Error(`Local LLM API error: ${errText}`);
+        }
+
+        const data: any = await response.json();
+        let content = data.choices?.[0]?.message?.content?.trim() || "";
+
+        // Strip markdown code blocks if present
+        if (content.startsWith("```")) {
+          const lines = content.split("\n");
+          if (lines[0].startsWith("```json") || lines[0].startsWith("```")) {
+            content = lines.slice(1, -1).join("\n");
+          } else {
+            content = lines.slice(1).join("\n");
+          }
+        }
+
+        return res.json({
+          success: true,
+          text: content.trim(),
+          simulation: false,
+          persona: persona || "Default"
         });
       }
 
-      // Initialize the SDK with named parameter
-      const ai = new GoogleGenAI({
-        apiKey: apiKey,
-        httpOptions: {
-          headers: {
-            'User-Agent': 'aistudio-build',
-          }
-        }
+      return res.status(400).json({
+        error: "Local AI URL not configured",
+        message: "Local LLM API URL is not configured in the .env file yet, so simulating response! Add AI_URL to run live API calls.",
+        simulation: true
       });
 
-      const { prompt, systemInstruction, formatJson, persona } = req.body;
 
-      // Base configuration
-      const config: any = {
-        temperature: 0.8,
-      };
-
-      if (systemInstruction) {
-        config.systemInstruction = systemInstruction;
-      }
-
-      if (formatJson) {
-        config.responseMimeType = "application/json";
-        config.responseSchema = {
-          type: Type.OBJECT,
-          required: ["recipeName", "estimatedTime", "difficulty", "ingredients", "instructions", "chefComment"],
-          properties: {
-            recipeName: { type: Type.STRING, description: "The creative name of the dish" },
-            estimatedTime: { type: Type.STRING, description: "Cooking and prep time (e.g. 45 min)" },
-            difficulty: { type: Type.STRING, description: "Easy, Medium or Hard" },
-            ingredients: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING },
-              description: "List of ingredients with measurements"
-            },
-            instructions: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING },
-              description: "Step-by-step preparation steps"
-            },
-            chefComment: { type: Type.STRING, description: "A message written in the chef's exact persona/tone" }
-          }
-        };
-      }
-
-      // Call Gemini 3.5 Flash by default - perfectly optimized for general text & structured JSON tasks!
-      const response = await ai.models.generateContent({
-        model: "gemini-3.5-flash",
-        contents: prompt || "Give me a creative dish using random leftovers.",
-        config: config
-      });
-
-      const text = response.text || "";
-      res.json({
-        success: true,
-        text: text,
-        simulation: false,
-        persona: persona || "Default"
-      });
 
     } catch (error: any) {
-      console.error("Gemini API Error:", error);
+      console.error("AI API Error:", error);
       res.status(500).json({
         error: "AI Generation Failed",
         message: error.message || "An unexpected error occurred"

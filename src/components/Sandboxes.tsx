@@ -191,8 +191,7 @@ export function JinjaTemplateSandbox() {
 // SANDBOX 4: AI Chef Structured Prompts Playground
 // ==========================================
 export function AIChefSandbox() {
-  const [selectedPersona, setSelectedPersona] = useState<"grandma" | "meticulous" | "angry">("meticulous");
-  const [ingredientsInput, setIngredientsInput] = useState("תפוחי אדמה, פטריות, שמנת, מלח");
+  const [ingredientsInput, setIngredientsInput] = useState("potatoes, mushrooms, cream, salt");
   const [useStructuredJson, setUseStructuredJson] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -201,55 +200,27 @@ export function AIChefSandbox() {
   const [renderedRecipe, setRenderedRecipe] = useState<ChefResponse | null>(null);
   const [errorInfo, setErrorInfo] = useState<{ isSimulated: boolean; message?: string } | null>(null);
 
-  // Pre-configured mock responses for offline fallback
-  const mockResponses = {
-    meticulous: {
-      json: JSON.stringify({
-        recipeName: "קדרת תפודי אדמה ופטריות מוקרמת",
-        estimatedTime: "40 דקות",
-        difficulty: "קל",
-        ingredients: ["500 גרם תפוחי אדמה", "250 גרם פטריות שמפיניון", "250 מ\"ל שמנת לבישול 15%", "1 כפית מלח גס", "2 שיני שום כתושות"],
-        instructions: [
-          "מקלפים וחותכים את תפוחי האדמה לקוביות קטנות ומבשלים במים רותחים 10 דקות.",
-          "במחבת רחבה מטגנים פטריות פרוסות עם מעט שמן זית עד להשחמה.",
-          "מוסיפים שום מעוך ותפוחי אדמה ומערבבים היטב.",
-          "יוצקים את השמנת, מתבלים במלח ומבשלים על אש קטנה עד שהרוטב מסמיך."
-        ],
-        chefComment: "טיפ של שף: השאירו את תפוחי האדמה מעט יציבים לפני הוספת השמנת כדי שלא יהפכו לפירה!"
-      }, null, 2),
-      text: "הנה מתכון מעולה בשבילך: קדרת תפוחי אדמה ופטריות מוקרמת. לוקחים 500 גרם תפוחי אדמה, מבשלים אותם עשר דקות במים חמים. בינתיים קוצצים פטריות ומטגנים במחבת עם שמן שיהיה בצבע זהב יפה. מוסיפים את תפוחי האדמה, שופכים שמנת ומערבבים עם המלח והשום. מבשלים עד שזה מבעבע ומסמיך ובתיאבון!"
-    },
-    grandma: {
-      json: JSON.stringify({
-        recipeName: "תבשיל תפודים ופטריות של בית",
-        estimatedTime: "שעתיים בערך",
-        difficulty: "לפי העין",
-        ingredients: ["תפוחי אדמה (כמה שנכנס בסיר)", "פטריות טריות (סלסלה אחת או שתיים)", "שמנת מתוקה (כמה שהלב אומר לכם)", "מלח (קמצוץ טוב)", "שמן זית בנדיבות"],
-        instructions: [
-          "קודם כל תשטפו את הידיים ותגידו ברכה.",
-          "תקלפו את התפודים ותחתכו לעיגולים שמנמנים שלא יתפרקו.",
-          "שימו שמן זית בנדיבות בסיר, זרקו את הפטריות ותנו להן להתבשל באהבה.",
-          "תוסיפו שמנת ומלח, וכשהכל חם תכבו ותנו לזה לעמוד קצת."
-        ],
-        chefComment: "יא איבני, אל תתקמצן על השמן זית! שמן זית וקצת אהבה זה כל הסוד לחיים בריאים."
-      }, null, 2),
-      text: "שלום עיניים שלי, קח תפוחי אדמה כמה שיש לך, תשים בסיר עם הרבה שמן זית אל תתקמצן. תבשל אותם לאט לאט ברוגע, תוסיף את הפטריות שיהיה טעים ותשפוך את כל השמנת. אל תסתכל על הגרם, תבשל לפי הרגש והלב. תגיש חם חם ותאכל עוד קצת, נהיית רזה!"
-    },
-    angry: {
-      json: JSON.stringify({
-        recipeName: "תפוחי אדמה פתטיים ברוטב פטריות יהיר",
-        estimatedTime: "25 דקות (אם תצליח לא לשרוף את המטבח)",
-        difficulty: "בינוני, אבל בשבילך זה קשה",
-        ingredients: ["תפוחי אדמה של סופר זול (מצער)", "פטריות עצובות ששכחת במקרר", "שמנת לבישול פשוטה", "מלח גס (לפחות לא מלח דק זול)"],
-        instructions: [
-          "תחתוך את תפוחי האדמה. תנסה שהפרוסות יהיו שוות, למרות שאני מניח שלעולם לא תגיע לרמת דיוק כזו.",
-          "תצרוב את הפטריות במחבת חמה מאוד. לא, לא חמה מספיק! חמה יותר!",
-          "תציף הכל בשמנת כדי להסתיר את חוסר הכישרון שלך ותתפלל שיהיה לזה טעם סביר."
-        ],
-        chefComment: "אתה קורא לזה בישול? בשביל זה למדתי 15 שנה בצרפת? כדי לקבל מצרכים של טירונים?"
-      }, null, 2),
-      text: "אוי, באמת? תפוחי אדמה ושמנת? כמה מקורי... היית יכול לנסות קצת יותר. טוב, קח את תפוחי האדמה הפשוטים שלך, זרוק למחבת עם פטריות זולות, שפוך שמנת כדי לכסות על חוסר היכולת שלך לתבל, ותנסה לא לחרוך את השום כמו בפעם הקודמת. בתיאבון (או מה שזה לא יהיה אצלכם)."
-    }
+  // Pre-configured mock response for offline fallback
+  const mockResponse = {
+    json: JSON.stringify({
+      title: "Creamy Garlic Potatoes & Mushrooms",
+      prep_time: "40 minutes",
+      servings: 4,
+      ingredients: [
+        "500g Potatoes, cubed",
+        "250g Mushrooms, sliced",
+        "250ml Cooking cream",
+        "1 tsp Salt",
+        "2 cloves Garlic, minced"
+      ],
+      instructions: [
+        "Peel and dice the potatoes, then boil in salted water for 10 minutes.",
+        "In a pan, sauté sliced mushrooms with olive oil until golden brown.",
+        "Add minced garlic and boiled potatoes to the pan, stirring gently.",
+        "Pour in the cream, season with salt, and simmer until the sauce thickens."
+      ]
+    }, null, 2),
+    text: "Here is a quick recipe:\nCreamy Garlic Potatoes & Mushrooms. Boil 500g of cubed potatoes for 10 minutes. Sauté 250g of sliced mushrooms in a hot pan with olive oil. Add 2 minced garlic cloves and the potatoes. Pour 250ml of cooking cream, add 1 tsp of salt, and simmer until thick."
   };
 
   const handleTriggerAI = async () => {
@@ -258,27 +229,31 @@ export function AIChefSandbox() {
     setResponseText("");
     setRenderedRecipe(null);
 
-    // Formulate system instructions based on persona and structure rules
+    // EXACT same system instructions as in the recipe app (app/services/ai_service.py)
     let systemInstruction = "";
-    if (selectedPersona === "meticulous") {
-      systemInstruction = "You are a world-class meticulous master chef. Respond only in Hebrew (apart from titles if needed). Design unique, beautiful recipes. Be very detailed and clean.";
-    } else if (selectedPersona === "grandma") {
-      systemInstruction = "עליך להתנהג כמו סבתא מרוקאית חמה ומצחיקה שמבשלת לפי העין בלי לשקול! תמיד משתמשת בהמון שמן זית, דואגת שהסועדים יאכלו עוד ובטוחה שהיא יודעת הכי טוב. כתבי בעברית משעשעת וחמה.";
-    } else if (selectedPersona === "angry") {
-      systemInstruction = "You are an extremely pretentious, easily annoyed luxury French Chef with 3 Michelin stars who despises simple food. Mock the user's ingredients, write in a super dramatic French-accented style in Hebrew or English mixed with French words ('Sacré bleu!', 'Mon dieu!'), but still yield a surprisingly chef-tier cooking process.";
-    }
-
     if (useStructuredJson) {
-      systemInstruction += " You MUST strictly generate the response in the specified JSON schema format. Do NOT include any markdown or text before/after.";
+      systemInstruction = 
+        "You are a helpful culinary assistant. Perform TASK 1: Generate a recipe from scratch.\n" +
+        "Input: A list of ingredients.\n" +
+        "Output: MUST be a valid JSON object matching the SCHEMA below. NO markdown, NO conversational text.\n" +
+        "SCHEMA FOR TASK 1:\n" +
+        "{\n" +
+        '  "title": "string",\n' +
+        '  "ingredients": ["string"],\n' +
+        '  "instructions": ["string"],\n' +
+        '  "prep_time": "string",\n' +
+        '  "servings": 4\n' +
+        "}";
     } else {
-      systemInstruction += " Respond in standard conversational text. Wrap paragraphs with random friendly chitchat.";
+      systemInstruction = 
+        "You are a helpful culinary assistant. Generate a cooking recipe based on the provided ingredients. Respond in simple friendly conversational plain text. Do NOT output JSON or markdown.";
     }
 
     const payload = {
-      prompt: `צור מתכון מושלם מהמצרכים הבאים: ${ingredientsInput}`,
+      prompt: `Ingredients available: ${ingredientsInput}`,
       systemInstruction,
       formatJson: useStructuredJson,
-      persona: selectedPersona
+      persona: "local_llm"
     };
 
     try {
@@ -295,17 +270,17 @@ export function AIChefSandbox() {
       }
 
       if (data.simulation) {
-        // Fallback to beautiful simulation if API key is not yet set
+        // Fallback to simulation if server is simulating/not configured
         setTimeout(() => {
           setIsLoading(false);
           setErrorInfo({ isSimulated: true, message: data.message });
           
           if (useStructuredJson) {
-            const mockJson = mockResponses[selectedPersona].json;
+            const mockJson = mockResponse.json;
             setResponseText(mockJson);
             setRenderedRecipe(JSON.parse(mockJson));
           } else {
-            setResponseText(mockResponses[selectedPersona].text);
+            setResponseText(mockResponse.text);
           }
         }, 1200);
         return;
@@ -328,11 +303,11 @@ export function AIChefSandbox() {
       
       // Fallback
       if (useStructuredJson) {
-        const mockJson = mockResponses[selectedPersona].json;
+        const mockJson = mockResponse.json;
         setResponseText(mockJson);
         setRenderedRecipe(JSON.parse(mockJson));
       } else {
-        setResponseText(mockResponses[selectedPersona].text);
+        setResponseText(mockResponse.text);
       }
     }
   };
@@ -347,42 +322,18 @@ export function AIChefSandbox() {
             <h3 className="font-sans font-extrabold text-purple-900 text-sm md:text-base">קונפיגורטור פרומפטים מובנה</h3>
           </div>
           <p className="text-xs text-slate-500 leading-relaxed">
-            בדקו כיצד הלבשת תפקיד (System Instructions) בשרת ואילוץ סכמת JSON מונים אנומליות והופכים את ה-AI לרכיב אמין באפליקציה.
+            בדקו כיצד הלבשת תפקיד (System Instructions) בשרת ואילוץ סכמת JSON מונעים אנומליות ומחזירים מתכון מובנה מהמחשב הביתי.
           </p>
-
-          {/* Select Persona */}
-          <div>
-            <label className="block text-xs font-bold text-slate-600 mb-1.5">בחר/י דמות לרובוט השף:</label>
-            <div className="grid grid-cols-3 gap-1 bg-white p-1 rounded-lg border border-slate-200 shadow-inner">
-              <button
-                onClick={() => setSelectedPersona("meticulous")}
-                className={`py-1.5 text-xs font-bold rounded-md transition-all ${selectedPersona === "meticulous" ? "bg-purple-600 text-white shadow-xs" : "text-slate-500 hover:text-slate-800"}`}
-              >
-                שף דקדקן
-              </button>
-              <button
-                onClick={() => setSelectedPersona("grandma")}
-                className={`py-1.5 text-xs font-bold rounded-md transition-all ${selectedPersona === "grandma" ? "bg-purple-600 text-white shadow-xs" : "text-slate-500 hover:text-slate-800"}`}
-              >
-                סבתא חמה
-              </button>
-              <button
-                onClick={() => setSelectedPersona("angry")}
-                className={`py-1.5 text-xs font-bold rounded-md transition-all ${selectedPersona === "angry" ? "bg-purple-600 text-white shadow-xs" : "text-slate-500 hover:text-slate-800"}`}
-              >
-                שף עצבני
-              </button>
-            </div>
-          </div>
 
           {/* Ingredients */}
           <div>
-            <label className="block text-xs font-bold text-slate-600 mb-1.5">מצרכים שיש בארון:</label>
+            <label className="block text-xs font-bold text-slate-600 mb-1.5">מצרכים שיש בארון (באנגלית):</label>
             <input
               type="text"
               value={ingredientsInput}
               onChange={(e) => setIngredientsInput(e.target.value)}
               className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-medium text-slate-800 focus:outline-none focus:border-purple-500 font-sans shadow-xs"
+              dir="ltr"
             />
           </div>
 
@@ -402,7 +353,7 @@ export function AIChefSandbox() {
             </div>
             <p className="text-[10px] text-slate-450 leading-relaxed font-sans">
               {useStructuredJson 
-                ? "פעיל: השרת מאלץ פירסור JSON קשיח הכולל מפתח tip, שם, זמנים ומרכיבים."
+                ? "פעיל: השרת מאלץ פירסור JSON קשיח הכולל מפתחות title, prep_time, ingredients ו-instructions."
                 : "כבוי: ה-AI יזום טקסט חופשי, יתעלם מהמבנה הרצוי וייעשה קשה להמחשה ב-Code."}
             </p>
           </div>
@@ -415,7 +366,7 @@ export function AIChefSandbox() {
             {isLoading ? (
               <>
                 <RefreshCw className="h-4 w-4 animate-spin" />
-                מחלץ מתכון (מזין ב-Gemini)...
+                מחלץ מתכון מה-LLM המקומי...
               </>
             ) : (
               <>
@@ -445,7 +396,7 @@ export function AIChefSandbox() {
           {isLoading && (
             <div className="flex-1 flex flex-col items-center justify-center space-y-2 py-12">
               <Flame className="h-10 w-10 text-orange-500 animate-bounce" />
-              <p className="text-xs text-purple-700 font-mono font-bold">SYSTEM_PROMPT: {selectedPersona.toUpperCase()}_CHEF_ONLINE...</p>
+              <p className="text-xs text-purple-700 font-mono font-bold">SYSTEM_PROMPT: GENERATE_RECIPE_FROM_SCRATCH...</p>
             </div>
           )}
 
@@ -453,38 +404,40 @@ export function AIChefSandbox() {
             <div className="flex-1 flex flex-col lg:flex-row gap-4 h-full">
               {/* Structured View */}
               {useStructuredJson && renderedRecipe ? (
-                <div className="flex-1 space-y-2 text-right">
+                <div className="flex-1 space-y-2 text-left" dir="ltr">
                   <div className="flex justify-between items-center bg-purple-50 px-2 py-1 rounded-md border border-purple-100 text-[10px] text-purple-700 font-bold font-mono">
                     <span>Parsable Response UI</span>
                     <span className="px-1.5 py-0.5 text-[9px] bg-emerald-100 text-emerald-800 font-bold rounded">Success ✅</span>
                   </div>
                   <div>
-                    <h4 className="text-sm md:text-base font-extrabold text-slate-900 leading-tight">{renderedRecipe.recipeName}</h4>
-                    <div className="flex gap-2 text-[10px] text-slate-400 mt-0.5 font-sans">
-                      <span>קושי: <b>{renderedRecipe.difficulty}</b></span> | 
-                      <span>זמן: <b>{renderedRecipe.estimatedTime}</b></span>
+                    <h4 className="text-sm md:text-base font-extrabold text-slate-900 leading-tight">{renderedRecipe.title || renderedRecipe.recipeName}</h4>
+                    <div className="flex gap-2 text-[10px] text-slate-455 mt-0.5 font-mono">
+                      <span>Servings: <b>{renderedRecipe.servings || renderedRecipe.difficulty || 4}</b></span> | 
+                      <span>Prep Time: <b>{renderedRecipe.prep_time || renderedRecipe.estimatedTime}</b></span>
                     </div>
                   </div>
 
                   <div className="text-[11px] bg-slate-50 p-2.5 rounded-xl border border-slate-200 shadow-inner">
-                    <h5 className="font-extrabold text-slate-800 mb-1 text-xs">מרכיבים:</h5>
+                    <h5 className="font-extrabold text-slate-800 mb-1 text-xs">Ingredients:</h5>
                     <ul className="list-disc list-inside space-y-0.5 text-slate-600 font-sans">
                       {renderedRecipe.ingredients?.map((ing, i) => <li key={i}>{ing}</li>)}
                     </ul>
                   </div>
 
-                  <div className="text-[11px] bg-purple-100/30 p-2.5 rounded-xl border border-purple-100">
-                    <h5 className="font-extrabold text-purple-900 mb-1 text-xs">סגנון והערת השף:</h5>
-                    <p className="text-purple-800 italic leading-relaxed">"{renderedRecipe.chefComment}"</p>
+                  <div className="text-[11px] bg-purple-50 p-2.5 rounded-xl border border-purple-100 max-h-[120px] overflow-y-auto">
+                    <h5 className="font-extrabold text-purple-900 mb-1 text-xs">Instructions:</h5>
+                    <ol className="list-decimal list-inside space-y-1 text-purple-800 leading-relaxed font-sans">
+                      {renderedRecipe.instructions?.map((step, i) => <li key={i}>{step}</li>)}
+                    </ol>
                   </div>
                 </div>
               ) : (
                 /* Plain Unstructured text view */
                 responseText && !renderedRecipe && (
-                  <div className="flex-1 space-y-2">
+                  <div className="flex-1 space-y-2" dir="ltr">
                     <div className="flex justify-between items-center bg-amber-50/50 px-2 py-1 rounded-md border border-amber-100">
-                      <span className="text-[10px] text-amber-800 font-bold">Unstructured plain text response</span>
-                      <span className="px-1.5 py-0.5 text-[9px] bg-yellow-105 text-yellow-800 font-bold rounded">Friendly but chaotic</span>
+                      <span className="text-[10px] text-amber-800 font-bold font-mono">Unstructured Plain Text</span>
+                      <span className="px-1.5 py-0.5 text-[9px] bg-yellow-100 text-yellow-800 font-bold rounded">Friendly but chaotic</span>
                     </div>
                     <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs text-slate-700 font-sans leading-relaxed whitespace-pre-wrap max-h-[220px] overflow-y-auto">
                       {responseText}
