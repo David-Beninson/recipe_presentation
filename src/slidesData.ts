@@ -6,7 +6,7 @@ export const initialSlides: SlideData[] = [
     number: 1,
     title: "איך כמעט איבדתי את השפיות בגלל Jinja2",
     persona: "shared",
-    concept: "איור של מפתח תשוש מביט במסך עם קוד Jinja2 סבוך, כותרת דרמטית ענקית.",
+    concept: "איור של כל מפתח שמבין שהוא צריך לעבוד עם jinja2",
     content: {
       subheading: "פרויקט: Recipe ",
       points: [

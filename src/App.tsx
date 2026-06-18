@@ -298,10 +298,10 @@ export default function App() {
                     <div className="flex items-center justify-between mb-3 text-xs">
                       <span className="font-mono text-slate-400 font-bold">שקף {slide.number} מתוך {slides.length}</span>
                       <span className={`px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase tracking-wider font-semibold border ${slide.persona === "technical"
-                          ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-                          : slide.persona === "marketing"
-                            ? "bg-amber-50 text-amber-700 border-amber-200"
-                            : "bg-purple-50 text-purple-700 border-purple-200"
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                        : slide.persona === "marketing"
+                          ? "bg-amber-50 text-amber-700 border-amber-200"
+                          : "bg-purple-50 text-purple-700 border-purple-200"
                         }`}>
                         {slide.persona === "technical" ? "טכני" : slide.persona === "marketing" ? "שיווקי" : "משותף"}
                       </span>
@@ -337,10 +337,10 @@ export default function App() {
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold text-slate-600">איפיון וסגנון השקף:</span>
                   <span className={`px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold border ${currentSlide.persona === "technical"
-                      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-                      : currentSlide.persona === "marketing"
-                        ? "bg-amber-50 text-amber-700 border-amber-200"
-                        : "bg-purple-50 text-purple-700 border-purple-200"
+                    ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                    : currentSlide.persona === "marketing"
+                      ? "bg-amber-50 text-amber-700 border-amber-200"
+                      : "bg-purple-50 text-purple-700 border-purple-200"
                     }`}>
                     {currentSlide.persona === "technical" ? "טכנולוגי (Technical)" : currentSlide.persona === "marketing" ? "שיווקי (Marketing)" : "שיתופי (Shared)"}
                   </span>
@@ -510,8 +510,8 @@ export default function App() {
                         key={i}
                         onClick={() => setCurrentSlideIndex(i)}
                         className={`h-2 rounded-full transition-all ${i === currentSlideIndex
-                            ? "w-6 bg-blue-600 shadow-sm"
-                            : "w-2 bg-slate-350 hover:bg-slate-400"
+                          ? "w-6 bg-blue-600 shadow-sm"
+                          : "w-2 bg-slate-350 hover:bg-slate-400"
                           }`}
                       />
                     ))}
@@ -675,7 +675,7 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
               <div className="relative w-full max-w-xs h-28 mb-3 rounded-lg overflow-hidden border border-slate-200">
                 <img src={exhaustedDeveloperJinja} alt="Exhausted developer looking at spaghetti code" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent flex items-end p-2 justify-center">
-                  <span className="text-white text-xs font-bold font-sans drop-shadow-md">"כרוניקת תבוסה"</span>
+                  <span className="text-white text-xs font-bold font-sans drop-shadow-md">"קרב אבוד מראש"</span>
                 </div>
               </div>
               <span className="text-[10px] text-slate-400 block mb-1 font-mono uppercase font-bold">ויז'ואל קונספט</span>
@@ -686,7 +686,7 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
                 <div className="px-4 py-2 bg-blue-50 border border-blue-200 rounded-xl max-w-sm flex items-center gap-3 shadow-xs">
                   <Terminal className="h-4 w-4 text-blue-600" />
                   <span className="text-[11px] font-sans text-blue-800 font-bold">
-                    מערך: FastAPI + Jinja2 (כרוניקת תבוסה)
+                    מערך: FastAPI + Jinja2 (קרב אבוד מראש)
                   </span>
                 </div>
               </div>
@@ -758,10 +758,10 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
       {/* Slide Punchline Footer panel */}
       {slide.content.punchline && (
         <div className={`mt-6 px-4 py-3 rounded-xl border flex items-center justify-between text-right relative overflow-hidden shadow-xs ${slide.persona === "technical"
-            ? "bg-emerald-50 border-emerald-200 text-emerald-800"
-            : slide.persona === "marketing"
-              ? "bg-amber-50 border-amber-200 text-amber-800"
-              : "bg-purple-50 border-purple-200 text-purple-800"
+          ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+          : slide.persona === "marketing"
+            ? "bg-amber-50 border-amber-200 text-amber-800"
+            : "bg-purple-50 border-purple-200 text-purple-800"
           }`}>
           <div className="flex items-center gap-2">
             <Zap className={`h-4 w-4 shrink-0 ${slide.persona === "technical" ? "text-emerald-600" : slide.persona === "marketing" ? "text-amber-600" : "text-purple-600"}`} />
