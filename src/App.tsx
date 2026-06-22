@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { initialSlides } from "./slidesData";
 import { SlideData, SlidePersona } from "./types";
 import exhaustedDeveloperJinja from "../assets/exhausted_developer_jinja.jpg";
-import oliverImg from "../assets/oliver.jpg";
 import youtubeVsReality from "../assets/youtube_vs_reality.png";
 import flaskLogo from "../assets/flask_logo.svg";
 import postgresLogo from "../assets/postgresql_logo.png";
@@ -786,11 +785,6 @@ function PresenterPageSlide({ slide, isFullscreen = false }: { slide: SlideData;
           <span className="text-[10px] bg-slate-100 border border-slate-200 text-slate-600 px-2.5 py-0.5 rounded font-mono font-bold">
             {skin.indicatorBubble}
           </span>
-          <img
-            src={oliverImg}
-            alt="Oliver"
-            className={`${isFullscreen ? "w-20 h-20" : "w-12 h-12"} rounded-full border-2 border-slate-200 shadow-md object-cover`}
-          />
         </div>
       </div>
 
